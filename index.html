@@ -182,6 +182,30 @@
     content: ''; width: 6px; height: 6px; border-radius: 50%;
     background: #6FCF97;
     box-shadow: 0 0 8px #6FCF97;
+    animation: livePulse 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  .hero-meta .live::after {
+    content: ''; position: absolute;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #6FCF97;
+    left: 0; top: 50%;
+    transform: translateY(-50%);
+    animation: liveRing 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+    pointer-events: none;
+  }
+  .hero-meta .live { position: relative; padding-left: 12px; }
+  .hero-meta .live::before { position: absolute; left: 0; top: 50%; transform: translateY(-50%); }
+  @keyframes livePulse {
+    0%, 100% { box-shadow: 0 0 6px rgba(111, 207, 151, 0.6), 0 0 14px rgba(111, 207, 151, 0.25); opacity: 1; }
+    50%      { box-shadow: 0 0 10px rgba(111, 207, 151, 0.95), 0 0 22px rgba(111, 207, 151, 0.5); opacity: 0.92; }
+  }
+  @keyframes liveRing {
+    0%   { transform: translateY(-50%) scale(1);   opacity: 0.7; }
+    80%  { transform: translateY(-50%) scale(3.2); opacity: 0; }
+    100% { transform: translateY(-50%) scale(3.2); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-meta .live::before, .hero-meta .live::after { animation: none; }
   }
 
   h1.hero-headline {
@@ -1121,7 +1145,7 @@
 
   /* Section rhythm — fluid vertical padding (was fixed 160px) */
   .section { padding: var(--space-3xl) 0; }
-  .hero { padding-top: clamp(120px, 18vw, 200px); padding-bottom: var(--space-2xl); }
+  .hero { padding-top: clamp(56px, 7vw, 96px); padding-bottom: var(--space-2xl); }
   .contact { padding: var(--space-3xl) 0 var(--space-2xl); }
 
   /* Hero: meta row wraps gracefully on mobile */
@@ -1129,7 +1153,7 @@
     flex-wrap: wrap;
     gap: var(--space-sm);
     font-size: clamp(10px, 1.1vw, 11px);
-    margin-bottom: clamp(40px, 8vw, 96px);
+    margin-bottom: clamp(20px, 3vw, 36px);
   }
   .hero-meta .right { display: flex; gap: var(--space-md); flex-wrap: wrap; }
   @media (max-width: 600px) {
@@ -1385,16 +1409,19 @@
 
   /* Tap-target hardening */
   .nav-cta, .nav-links a, .case-link, .contact-socials a, .pw-enter, .btn,
-  .tweak-btn, .pw-close, .pw-request, .theme-toggle, .nav-burger {
+  .tweak-btn, .pw-close, .pw-request, .nav-burger {
     min-height: 36px;
   }
   @media (pointer: coarse) {
     .nav-cta, .case-link, .contact-socials a, .btn, .pw-enter, .pw-request,
-    .theme-toggle, .nav-burger {
+    .nav-burger {
       min-height: 44px;
     }
     .nav-links a { padding-block: 12px; }
   }
+
+  /* Theme toggle keeps its 11:7 aspect ratio on every viewport */
+  .theme-toggle { aspect-ratio: 44 / 28; flex: 0 0 auto; }
 
   /* PW modal — fluid */
   .pw-card {
@@ -1415,7 +1442,7 @@
 
   /* ----- Desktop polish (1440+): keep generous whitespace ----- */
   @media (min-width: 1440px) {
-    .hero { padding-top: 200px; padding-bottom: 96px; }
+    .hero { padding-top: 96px; padding-bottom: 96px; }
   }
 
   /* Print: keep nav drawer hidden in print */
