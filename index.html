@@ -4,6 +4,27 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Deepali Pathe, Product Designer</title>
+<template id="__bundler_thumbnail" data-bg-color="#16181C">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="bloom" cx="50%" cy="50%" r="60%">
+        <stop offset="0%" stop-color="#9FB2C8" stop-opacity="0.18" />
+        <stop offset="60%" stop-color="#9FB2C8" stop-opacity="0.04" />
+        <stop offset="100%" stop-color="#9FB2C8" stop-opacity="0" />
+      </radialGradient>
+    </defs>
+    <rect width="1200" height="800" fill="#16181C" />
+    <circle cx="600" cy="400" r="380" fill="url(#bloom)" />
+    <text x="600" y="460" text-anchor="middle"
+          font-family="'Inter Tight', Georgia, serif"
+          font-style="italic" font-weight="320" font-size="240"
+          fill="#E4E1DA" letter-spacing="-6">deepali</text>
+    <text x="600" y="540" text-anchor="middle"
+          font-family="'Inter Tight', Georgia, serif"
+          font-style="italic" font-weight="300" font-size="48"
+          fill="#9E9C94" letter-spacing="2">.design</text>
+  </svg>
+</template>
 <script>
   // Anti-FOUC: apply saved theme before paint
   (function () {
@@ -33,7 +54,7 @@
     --bloom-b: #2A2230;
     --shadow-soft: 0 24px 60px rgba(0,0,0,0.5);
     --shadow-card: 0 0 0 1px var(--line);
-    --radius: 56px;
+    --radius: 3px;
     --f-display: "Inter Tight", "Inter", system-ui, sans-serif;
     --f-sans: "Inter", system-ui, sans-serif;
     --f-mono: "Inter", system-ui, sans-serif;
@@ -81,7 +102,7 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: var(--bg); color: var(--fg); }
+  html, body { background: var(--bg); color: var(--fg); transition: background-color 280ms cubic-bezier(0.22, 1, 0.36, 1), color 280ms cubic-bezier(0.22, 1, 0.36, 1); }
   body {
     font-family: var(--f-sans);
     font-size: 16px;
@@ -249,8 +270,114 @@
   }
   .hero-desc strong { color: var(--fg); font-weight: 500; }
 
-  .hero-ctas { display: flex; gap: 16px; align-items: center; justify-content: flex-end; }
-  @media (max-width: 900px) { .hero-ctas { justify-content: flex-start; } }
+  .hero-ctas { display: flex; gap: 16px; align-items: center; justify-content: flex-start; }
+
+  /* ---------- Hero grid (text │ portrait + bio) ---------- */
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) 1px minmax(0, 0.9fr);
+    gap: clamp(36px, 5vw, 72px);
+    align-items: stretch;
+  }
+  .hero-text {
+    display: flex; flex-direction: column;
+    gap: clamp(28px, 3.5vw, 44px);
+    justify-content: center;
+    padding: clamp(8px, 2vw, 24px) 0;
+  }
+  .hero-text .hero-headline { margin: 0; }
+  .hero-tagline {
+    margin: 0;
+    font-family: var(--f-display);
+    font-weight: 320;
+    font-size: clamp(22px, 3.4vw, 40px);
+    letter-spacing: -0.02em;
+    line-height: 1.18;
+    color: var(--fg-dim);
+    max-width: 22ch;
+    text-wrap: balance;
+  }
+  .hero-tagline .accent {
+    color: var(--accent-ink);
+    font-style: italic;
+  }
+
+  .hero-rule {
+    width: 1px;
+    background: var(--line);
+    align-self: stretch;
+    opacity: 0.7;
+  }
+
+  .hero-aside {
+    display: flex; flex-direction: column;
+    gap: 24px;
+    justify-content: center;
+    padding: clamp(8px, 2vw, 24px) 0;
+    max-width: 340px;
+  }
+  .hero-portrait { margin: 0; width: 96px; }
+  .hero-portrait-frame {
+    position: relative;
+    width: 96px; height: 96px;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    box-shadow: 0 12px 28px -16px rgba(0,0,0,0.55);
+  }
+  .hero-portrait-frame::after {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(120% 80% at 50% 20%, rgba(255,255,255,0.05), transparent 60%);
+    pointer-events: none;
+    mix-blend-mode: overlay;
+  }
+  .hero-portrait-frame img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 22%;
+    filter: saturate(0.88) contrast(0.96) brightness(0.96);
+    transition: transform 1.6s cubic-bezier(.2,.7,.2,1), filter 900ms;
+  }
+  .hero-portrait:hover .hero-portrait-frame img {
+    transform: scale(1.04);
+    filter: saturate(0.95) contrast(1) brightness(1);
+  }
+  html[data-theme="light"] .hero-portrait-frame img {
+    filter: saturate(0.92) contrast(1) brightness(1.02);
+  }
+
+  .hero-bio {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--fg-muted);
+    text-wrap: pretty;
+  }
+  .hero-bio strong { color: var(--fg); font-weight: 500; }
+  .hero-bio em { font-style: italic; color: var(--fg); }
+
+  .hero-aside-meta {
+    display: inline-flex; gap: 10px;
+    font-family: var(--f-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    padding-top: 8px;
+    border-top: 1px solid var(--line);
+    margin-top: 4px;
+  }
+  .hero-aside-meta .k { color: var(--fg-dim); }
+  .hero-aside-meta .v { color: var(--fg-muted); }
+
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .hero-rule { display: none; }
+    .hero-aside { max-width: none; flex-direction: column; }
+  }
 
   .btn {
     font-family: var(--f-sans);
@@ -273,7 +400,7 @@
   .btn:hover .arrow { transform: translateX(3px); }
 
   /* ---------- Section header ---------- */
-  .section { padding: 160px 0; position: relative; }
+  .section { padding: 100px 0; position: relative; }
   .section-head {
     display: flex; justify-content: space-between; align-items: baseline;
     padding-bottom: 40px;
@@ -310,8 +437,112 @@
   }
   .case.visible { opacity: 1; transform: none; }
 
-  /* ----- Variant A: Full-bleed hero (default) ----- */
+  /* ----- Compact unified case layout (thumbnail beside content, one-viewport fit) ----- */
+  .layout-fullbleed .case {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: clamp(32px, 4vw, 56px);
+    align-items: center;
+    min-height: min(72vh, 640px);
+  }
+  @media (max-width: 900px) {
+    .layout-fullbleed .case { grid-template-columns: 1fr !important; gap: 32px; min-height: 0; }
+  }
   .layout-fullbleed .case-hero {
+    position: relative;
+    aspect-ratio: 16 / 9 !important;
+    height: auto !important;
+    border-radius: 12px;
+    overflow: hidden;
+    border: none;
+    background: transparent;
+    margin: 0;
+  }
+  .layout-fullbleed .case-hero .hero-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    border-radius: 12px;
+    transition: transform .8s cubic-bezier(.2,.7,.2,1);
+    padding: 0;
+  }
+  .layout-fullbleed .case:hover .case-hero .hero-img { transform: scale(1.02); }
+  .layout-fullbleed .case-meta-rail,
+  .layout-fullbleed .case-kv { display: none !important; }
+  .layout-fullbleed .case-summary { margin-bottom: 24px; }
+  .layout-fullbleed .case-grid {
+    display: flex !important;
+    flex-direction: column;
+    gap: 18px;
+    grid-template-columns: unset !important;
+  }
+  .layout-fullbleed .case-meta-rail {
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    gap: 8px 24px !important;
+    padding-top: 0 !important;
+    margin: 0;
+  }
+  .layout-fullbleed .case-meta-rail .row {
+    display: inline-flex !important;
+    grid-template-columns: unset !important;
+    gap: 6px;
+    min-width: 0;
+  }
+  .layout-fullbleed .case-meta-rail .row .k { font-size: 10px; }
+  .layout-fullbleed .case-meta-rail .row .v { font-size: 12px; }
+  .layout-fullbleed .case-title {
+    font-size: clamp(24px, 2.6vw, 36px) !important;
+    line-height: 1.12 !important;
+    margin-bottom: 8px !important;
+    text-wrap: balance;
+  }
+  .layout-fullbleed .case-summary {
+    font-size: 15px !important;
+    line-height: 1.6 !important;
+    margin-bottom: 16px !important;
+    max-width: 56ch;
+  }
+  .layout-fullbleed .case-kv {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+    margin-bottom: 20px !important;
+  }
+  .layout-fullbleed .case-kv .kv-item .v {
+    font-size: 20px !important;
+    line-height: 1.1 !important;
+  }
+  .layout-fullbleed .case-kv .kv-item .k,
+  .layout-fullbleed .case-kv .kv-item .sub { font-size: 11px; }
+  /* Trim case rails: only show Type */
+  .layout-fullbleed .case-meta-rail .row { display: none !important; }
+  .layout-fullbleed .case-meta-rail .row.show-row { display: inline-flex !important; }
+
+  /* Hide summary paragraph entirely, less text */
+  .layout-fullbleed .case-summary { display: none !important; }
+
+  /* Show all kv items as tight metric chips */
+  .layout-fullbleed .case-kv {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    margin-bottom: 16px !important;
+  }
+  @media (max-width: 900px) {
+    .layout-fullbleed .case-kv { grid-template-columns: repeat(2, 1fr) !important; }
+  }
+  .layout-fullbleed .case-kv .kv-item .v {
+    font-size: 18px !important;
+    line-height: 1.1 !important;
+  }
+  .layout-fullbleed .case-kv .kv-item .k,
+  .layout-fullbleed .case-kv .kv-item .sub { font-size: 10px; }
+  .layout-fullbleed .case-kv .kv-item .sub { display: none !important; }
+
+  .layout-fullbleed .case-link { margin-top: 4px; }
+
+  /* ----- Variant A LEGACY (kept for reference, no longer applied) ----- */
+  ._unused_layout-fullbleed .case-hero {
     position: relative;
     aspect-ratio: 16 / 9;
     border-radius: var(--radius);
@@ -950,7 +1181,7 @@
         var(--bloom-b) 28%,
         transparent 62%);
     mix-blend-mode: screen;
-    transition: opacity 1400ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: opacity 380ms cubic-bezier(0.22, 1, 0.36, 1);
     will-change: opacity;
   }
   .bloom-wash.washing { opacity: 1; }
@@ -970,7 +1201,7 @@
     pointer-events: none;
     z-index: 0;
     opacity: 0;
-    transition: opacity 1400ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: opacity 380ms cubic-bezier(0.22, 1, 0.36, 1);
     background:
       radial-gradient(36vw 30vh at 6% 8%, rgba(255, 184, 156, 0.18), transparent 70%),
       radial-gradient(32vw 26vh at 96% 10%, rgba(168, 184, 232, 0.16), transparent 70%),
@@ -1003,8 +1234,8 @@
 
   html[data-theme="light"] .case-hero {
     border: none;
-    box-shadow: var(--shadow-soft);
-    background: var(--bg-2);
+    box-shadow: none;
+    background: transparent;
   }
   html[data-theme="light"] .approach-grid {
     background: var(--line);
@@ -1201,7 +1432,7 @@
   }
 
   /* Work list — case grid stacks at <1024 (tablet + mobile) */
-  .work-list { gap: clamp(64px, 10vw, 120px); }
+  .work-list { gap: clamp(48px, 7vw, 80px); }
   .layout-fullbleed .case-grid {
     grid-template-columns: 1fr;
     gap: var(--space-lg);
@@ -1224,7 +1455,7 @@
     aspect-ratio: 16 / 9;
     height: auto !important;
   }
-  .case-hero .hero-img { width: 100%; height: 100%; object-fit: cover; }
+  .case-hero .hero-img { width: 100%; height: 100%; object-fit: contain; }
   .case-title { font-size: clamp(22px, 3vw, 34px); text-wrap: balance; }
   .case-summary { font-size: clamp(15px, 1.5vw, 17px); }
 
@@ -1504,18 +1735,35 @@
         </div>
       </div>
 
-      <h1 class="hero-headline reveal delay-1">
-        I simplify what feels <em>overwhelming</em>, <span class="accent">quietly</span>, one surface at a time.
-      </h1>
-
-      <div class="hero-sub">
-        <p class="hero-desc reveal delay-2">
-          <strong>I'm Deepali</strong>, a product designer who brings clarity to complex problems.<br/>I design experiences that feel <em>simple, thoughtful, and quietly intuitive</em>.
-        </p>
-        <div class="hero-ctas reveal delay-3">
-          <a href="#work" class="btn btn-primary">View Work <span class="arrow">→</span></a>
-          <a href="https://drive.google.com/file/d/16bvodYmODBfq5Snr9sI1izGEmajrtvvI/view?usp=sharing" target="_blank" rel="noopener" class="btn btn-ghost">Resume ↗</a>
+      <div class="hero-grid">
+        <div class="hero-text">
+          <h1 class="hero-headline reveal delay-1">
+            Hello, I'm <em>Deepali</em>.
+          </h1>
+          <p class="hero-tagline reveal delay-2">
+            Designing calm, intuitive products that <span class="accent">simplify</span> what feels overwhelming.
+          </p>
+          <div class="hero-ctas reveal delay-3">
+            <a href="#work" class="btn btn-primary">View Work <span class="arrow">→</span></a>
+            <a href="https://drive.google.com/file/d/16bvodYmODBfq5Snr9sI1izGEmajrtvvI/view?usp=sharing" target="_blank" rel="noopener" class="btn btn-ghost">Resume ↗</a>
+          </div>
         </div>
+
+        <div class="hero-rule" aria-hidden="true"></div>
+
+        <aside class="hero-aside reveal delay-2">
+          <figure class="hero-portrait">
+            <div class="hero-portrait-frame">
+              <img src="assets/deepali.jpeg" alt="Portrait of Deepali Pathe" />
+            </div>
+          </figure>
+          <p class="hero-bio">
+            I'm a product designer with <strong>3+ years</strong> of experience, drawn to making things feel <em>simple and clear</em>. I work across UX, research and design systems, looking for what's really going on beneath a problem, not just what's visible.
+          </p>
+          <div class="hero-aside-meta">
+            <span class="k">Based in</span><span class="v">Thane, IN</span>
+          </div>
+        </aside>
       </div>
     </div>
   </section>
@@ -1533,44 +1781,40 @@
         <!-- CASE 01, B Smart Glasses by Lenskart -->
         <article class="case" data-idx="01">
           <div class="case-hero">
-            <img src="assets/thumb-smartglasses.png" alt="B Smart Glasses by Lenskart" class="hero-img" />
+            <img src="assets/thumb-smartglasses.png" alt="B Smart Glasses by Lenskart" class="hero-img" style="opacity: 1" />
           </div>
 
           <div class="case-grid">
             <aside class="case-meta-rail">
               <div class="row"><span class="k">Client</span><span class="v">Lenskart</span></div>
-              <div class="row"><span class="k">Type</span><span class="v">0 → 1 · Smart Wearable</span></div>
+              <div class="row show-row"><span class="k">Type</span><span class="v">Companion app design</span></div>
               <div class="row"><span class="k">Role</span><span class="v">Product Designer · end-to-end</span></div>
-              <div class="row"><span class="k">Scope</span><span class="v">Companion app · Onboarding · Gestures</span></div>
-              <div class="row"><span class="k">Platform</span><span class="v">iOS · Android</span></div>
+              <div class="row"><span class="k">Scope</span><span class="v">Research · UX strategy · Hardware + app</span></div>
+              <div class="row"><span class="k">Platform</span><span class="v">Smart eyewear · iOS · Android</span></div>
             </aside>
 
             <div class="case-body">
-              <h3 class="case-title"> Making smart eyewear feel simple, <em>intuitive</em>, and usable in everyday life.</h3>
+              <h3 class="case-title">B Smart Glasses, shaping the end-to-end <em>experience</em> of a new smart wearable.</h3>
               <p class="case-summary">
-                Designed the companion app experience for B Smart Glasses by Lenskart, translating smart eyewear capabilities into a clear and intuitive digital interface. Focused on simplifying interactions, improving usability, and creating a seamless connection between the hardware and app experience.
+                Led 0–1 design for Lenskart's smart eyewear, from research to product-ready output. I ran user research to surface real-world behaviour and unmet needs, then turned those insights into experience principles, flows, and interaction models across hardware and the companion app — partnering closely with product, engineering, and business to shape the launch's vision and strategy.
               </p>
 
               <div class="case-kv">
-                <div class="kv-item">
-                  <div class="k">Project type</div>
-                  <div class="v accent">0 → 1</div>
-                  <div class="sub">Hardware + software launch</div>
+                <div class="kv-item keep"><div class="k">Project type</div><div class="v accent">0 → 1</div>
+                  <div class="sub">Smart wearable launch</div>
                 </div>
                 <div class="kv-item">
                   <div class="k">Scope owned</div>
                   <div class="v">End-to-end</div>
-                  <div class="sub">Discovery → ship, app-side</div>
+                  <div class="sub">Research → product-ready design</div>
                 </div>
                 <div class="kv-item">
-                  <div class="k">Core flows designed</div>
-                  <div class="v">10+</div>
-                  <div class="sub">Dashboard, gallery, nutrition analysis, etc.</div>
+                  <div class="k">Research led</div>
+                  <div class="v">Primary</div>
+                  <div class="sub">Behavioural patterns &amp; unmet needs</div>
                 </div>
-                <div class="kv-item">
-                  <div class="k">First-run goal</div>
-                  <div class="v accent">Intuitive</div>
-                  <div class="sub">Onboarding designed to feel effortless</div>
+                <div class="kv-item keep"><div class="k">Cross-functional</div><div class="v accent">Aligned</div>
+                  <div class="sub">Product, engineering, business</div>
                 </div>
               </div>
 
@@ -1588,7 +1832,7 @@
           <div class="case-grid">
             <aside class="case-meta-rail">
               <div class="row"><span class="k">Project</span><span class="v">AjnaLens Design System</span></div>
-              <div class="row"><span class="k">Type</span><span class="v">Design system · end-to-end</span></div>
+              <div class="row show-row"><span class="k">Type</span><span class="v">Design system</span></div>
               <div class="row"><span class="k">Role</span><span class="v">Product Designer</span></div>
               <div class="row"><span class="k">Scope</span><span class="v">Tokens · components · consistency</span></div>
             </aside>
@@ -1600,9 +1844,7 @@
               </p>
 
               <div class="case-kv">
-                <div class="kv-item">
-                  <div class="k">System depth</div>
-                  <div class="v accent">Foundations</div>
+                <div class="kv-item keep"><div class="k">System depth</div><div class="v accent">Foundations</div>
                   <div class="sub">Colors · typography · spacing · UI elements</div>
                 </div>
                 <div class="kv-item">
@@ -1636,7 +1878,7 @@
           <div class="case-grid">
             <aside class="case-meta-rail">
               <div class="row"><span class="k">Product</span><span class="v">Babbel · Language learning</span></div>
-              <div class="row"><span class="k">Type</span><span class="v">Redesign · self-initiated</span></div>
+              <div class="row show-row"><span class="k">Type</span><span class="v">App redesign</span></div>
               <div class="row"><span class="k">Role</span><span class="v">UX Research + UI/UX Design</span></div>
               <div class="row"><span class="k">Scope</span><span class="v">Navigation · motivation · learning experience</span></div>
             </aside>
@@ -1648,9 +1890,7 @@
               </p>
 
               <div class="case-kv">
-                <div class="kv-item">
-                  <div class="k">Focus</div>
-                  <div class="v accent">Usability</div>
+                <div class="kv-item keep"><div class="k">Focus</div><div class="v accent">Usability</div>
                   <div class="sub">Improving clarity and reducing friction</div>
                 </div>
                 <div class="kv-item">
@@ -1772,7 +2012,7 @@
 
       <div class="footer">
         <span>© 2026 · Deepali Pathe</span>
-        <span>Designed in HTML · built in a weekend</span>
+        <!-- <span>Designed in HTML · built in </span> -->
         <span>v2.0 · Last updated Apr 2026</span>
       </div>
     </div>
@@ -1794,7 +2034,7 @@
         <div class="pw-error" id="pwError"></div>
       </div>
       <div class="pw-actions">
-        <button type="button" class="pw-request" id="pwRequest" onclick="window.open('https://mail.google.com/mail/?view=cm&fs=1&to=deepalipathe@gmail.com&su=Request%20for%20Lenskart%20Case%20Study%20Password&body=Hi%20Deepali,%0A%0AI%20visited%20your%20portfolio%20and%20would%20love%20to%20view%20the%20Lenskart%20case%20study.%20Could%20you%20please%20share%20the%20password?%0A%0AThanks!', '_blank')">Request access ↗</button>
+        <button type="button" class="pw-request" id="pwRequest">Request access ↗</button>
         <button type="submit" class="pw-enter">Enter →</button>
       </div>
     </form>
@@ -2043,18 +2283,18 @@
     // 1) Wash in
     bloom.classList.add('washing');
 
-    // 2) At ~the wash's peak, swap the theme so colors crossfade beneath
+    // 2) Swap theme almost immediately so colors crossfade beneath the wash
     setTimeout(() => {
       root.setAttribute('data-theme', next);
       try { localStorage.setItem(THEME_KEY, next); } catch {}
-    }, 350);
+    }, 120);
 
     // 3) Wash out
     setTimeout(() => {
       bloom.classList.remove('washing');
-    }, 1200);
+    }, 360);
 
-    setTimeout(() => { switching = false; }, 1600);
+    setTimeout(() => { switching = false; }, 520);
   }
 
   toggle.addEventListener('click', (e) => {
