@@ -1376,7 +1376,8 @@
 
   /* Section rhythm — fluid vertical padding (was fixed 160px) */
   .section { padding: var(--space-3xl) 0; }
-  .hero { padding-top: clamp(56px, 7vw, 96px); padding-bottom: var(--space-2xl); }
+  .hero { padding-top: clamp(96px, 12vw, 120px); padding-bottom: var(--space-2xl); }
+  @media (max-width: 600px) { .hero { padding-top: 112px; } }
   .contact { padding: var(--space-3xl) 0 var(--space-2xl); }
 
   /* Hero: meta row wraps gracefully on mobile */
@@ -2012,7 +2013,7 @@
 
       <div class="footer">
         <span>© 2026 · Deepali Pathe</span>
-        <!-- <span>Designed in HTML · built in </span> -->
+        <!-- <span>Designed in HTML · built in a weekend</span> -->
         <span>v2.0 · Last updated Apr 2026</span>
       </div>
     </div>
