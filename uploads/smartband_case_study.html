@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smartband for Women — Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #f5f4f0;
+    color: #1a1a1a;
+    padding: 48px 24px;
+  }
+
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .hero {
+    background: #1A0A2E;
+    border-radius: 16px;
+    padding: 56px 48px 48px;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-orb {
+    position: absolute;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #C084FC44, transparent 70%);
+    top: -60px; right: -60px;
+    pointer-events: none;
+  }
+
+  .hero-orb2 {
+    position: absolute;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #F472B644, transparent 70%);
+    bottom: -40px; left: 40px;
+    pointer-events: none;
+  }
+
+  .hero-tag {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #C084FC;
+    background: #C084FC1A;
+    border: 0.5px solid #C084FC44;
+    padding: 4px 12px;
+    border-radius: 99px;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 42px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: #C084FC;
+  }
+
+  .hero-sub {
+    font-size: 15px;
+    color: #C4B5D4;
+    line-height: 1.6;
+    max-width: 420px;
+    font-weight: 300;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 24px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 0.5px solid #ffffff18;
+  }
+
+  .hero-meta-item { display: flex; flex-direction: column; gap: 4px; }
+
+  .hero-meta-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #8B6FA8;
+  }
+
+  .hero-meta-value {
+    font-size: 13px;
+    color: #E9D5FF;
+    font-weight: 500;
+  }
+
+  .section { margin-bottom: 2.5rem; }
+
+  .section-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #888;
+    margin-bottom: 8px;
+  }
+
+  h2.section-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+  }
+
+  .pull-quote {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 24px;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.4;
+    color: #1a1a1a;
+    border-left: 3px solid #C084FC;
+    padding: 8px 0 8px 24px;
+    margin: 2rem 0;
+  }
+
+  .body-text {
+    font-size: 15px;
+    line-height: 1.85;
+    color: #444;
+    font-weight: 300;
+    margin-bottom: 1rem;
+  }
+
+  .body-text strong { color: #1a1a1a; font-weight: 500; }
+
+  .problem-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 1.5rem 0;
+  }
+
+  .p-card {
+    background: #f0eef8;
+    border: 0.5px solid #e0daf0;
+    border-radius: 8px;
+    padding: 20px 16px;
+  }
+
+  .p-card-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #C084FC;
+    opacity: 0.5;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  .p-card-text { font-size: 13px; line-height: 1.55; color: #555; }
+
+  .field-callout {
+    background: #1A0A2E;
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin: 1.5rem 0;
+  }
+
+  .field-callout-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #8B6FA8;
+    margin-bottom: 14px;
+  }
+
+  .field-insight {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    align-items: flex-start;
+  }
+
+  .field-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #C084FC;
+    margin-top: 7px;
+    flex-shrink: 0;
+  }
+
+  .field-insight-text {
+    font-size: 14px;
+    color: #DDD6FE;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .feature-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 1.5rem 0;
+  }
+
+  .f-card {
+    background: #ffffff;
+    border: 0.5px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 22px 20px;
+  }
+
+  .f-card-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-bottom: 14px;
+  }
+
+  .f-card-icon.purple { background: #C084FC1A; color: #C084FC; }
+  .f-card-icon.pink   { background: #F472B61A; color: #F472B6; }
+  .f-card-icon.teal   { background: #2DD4BF1A; color: #2DD4BF; }
+  .f-card-icon.amber  { background: #FBBF241A; color: #FBBF24; }
+
+  .f-card-title { font-size: 14px; font-weight: 500; color: #1a1a1a; margin-bottom: 8px; }
+
+  .f-card-body { font-size: 13px; line-height: 1.6; color: #555; font-weight: 300; }
+
+  .impact-strip {
+    background: linear-gradient(135deg, #1A0A2E, #2D1A4A);
+    border-radius: 16px;
+    padding: 32px;
+    margin: 2rem 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .impact-item { text-align: center; }
+
+  .impact-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    font-style: italic;
+    color: #E9D5FF;
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+
+  .impact-desc { font-size: 11px; color: #8B6FA8; line-height: 1.4; }
+
+  .closing {
+    text-align: center;
+    padding: 40px 24px;
+    border-top: 0.5px solid #e5e5e5;
+    margin-top: 2rem;
+  }
+
+  .closing-quote {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 22px;
+    font-style: italic;
+    color: #1a1a1a;
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+
+  .closing-attr {
+    font-size: 12px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .divider {
+    height: 0.5px;
+    background: #e5e5e5;
+    margin: 2.5rem 0;
+  }
+
+  .icon { font-size: 18px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hero">
+    <div class="hero-orb"></div>
+    <div class="hero-orb2"></div>
+    <div class="hero-tag">Case Study · Product Design</div>
+    <h1>Designing health that<br>women actually <em>prioritise</em></h1>
+    <p class="hero-sub">A smartband and companion app built around the reality of how Indian women live, not how we imagine they should.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Type</span>
+        <span class="hero-meta-value">IoT + Mobile App</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Focus</span>
+        <span class="hero-meta-value">Women's Health</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Approach</span>
+        <span class="hero-meta-value">Behaviour Design</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-label">The brief</p>
+    <h2 class="section-heading">One simple goal. Deceptively hard.</h2>
+    <p class="body-text">The ask seemed straightforward: design a smartband and app focused on women's health, and make it <strong>easy enough to use every single day.</strong></p>
+    <p class="body-text">But as we dug deeper, we realised the challenge wasn't technical. It wasn't even about features. It was about something far more stubborn, <strong>habit, priority, and the quiet way women are conditioned to put themselves last.</strong></p>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section">
+    <p class="section-label">The problem</p>
+    <h2 class="section-heading">A truth no dashboard could show us</h2>
+    <p class="body-text">Before a single wireframe was drawn, we had to understand what we were actually solving for. And what we found was uncomfortable.</p>
+
+    <div class="problem-cards">
+      <div class="p-card">
+        <div class="p-card-num">01</div>
+        <div class="p-card-text">Women manage the household, the children, the work, and their own health comes last. Always.</div>
+      </div>
+      <div class="p-card">
+        <div class="p-card-num">02</div>
+        <div class="p-card-text">Conditions like PCOS affect millions of Indian women, yet remain massively underdiagnosed and quietly ignored.</div>
+      </div>
+      <div class="p-card">
+        <div class="p-card-num">03</div>
+        <div class="p-card-text">Health awareness alone doesn't work. Women know they should care. The behaviour still doesn't change.</div>
+      </div>
+    </div>
+
+    <blockquote class="pull-quote">"It wasn't about what they didn't know. It was about what they never had time, or permission, to do."</blockquote>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section">
+    <p class="section-label">Research</p>
+    <h2 class="section-heading">We went where the data couldn't</h2>
+    <p class="body-text">The research phase took us out of the studio and into the field, into rural areas, real conversations, unfiltered ground reality. No surveys with neat dropdowns. Just listening.</p>
+
+    <div class="field-callout">
+      <div class="field-callout-label">What we heard</div>
+      <div class="field-insight"><div class="field-dot"></div><div class="field-insight-text">PCOS and nutritional deficiencies were common, but rarely talked about, let alone treated.</div></div>
+      <div class="field-insight"><div class="field-dot"></div><div class="field-insight-text">Meals were irregular, skipped, or eaten standing up after everyone else had finished.</div></div>
+      <div class="field-insight"><div class="field-dot"></div><div class="field-insight-text">Health was always the last item on the list, something to tend to once everything else was done.</div></div>
+      <div class="field-insight"><div class="field-dot"></div><div class="field-insight-text">The barrier wasn't information. It was behaviour, deep-set patterns that no health app had ever tried to understand.</div></div>
+    </div>
+
+    <p class="body-text">This wasn't a features problem. This was a <strong>behaviour design problem,</strong> and that changed everything about how we built the product.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section">
+    <p class="section-label">The solution</p>
+    <h2 class="section-heading">Four modules. One mission.</h2>
+    <p class="body-text">Instead of building another generic wellness app, we designed an ecosystem of four interconnected experiences, each one solving a specific, real friction point.</p>
+
+    <div class="feature-row">
+      <div class="f-card">
+        <div class="f-card-icon purple">⚗</div>
+        <div class="f-card-title">Onboarding that starts with truth</div>
+        <div class="f-card-body">We don't guess what a user needs. We start with blood reports and actual diagnostics to identify real issues, then build a personalised reversal plan from the ground up. No generic advice, no assumptions.</div>
+      </div>
+      <div class="f-card">
+        <div class="f-card-icon pink">↺</div>
+        <div class="f-card-title">A reversal plan that fits real life</div>
+        <div class="f-card-body">The core module delivers daily personalised tasks, not generic routines, but actions tailored to each user's specific condition. Simple, achievable, not overwhelming. Because a plan that's too hard is a plan that never starts.</div>
+      </div>
+      <div class="f-card">
+        <div class="f-card-icon teal">▦</div>
+        <div class="f-card-title">A dashboard for the rest of us</div>
+        <div class="f-card-body">Health data is overwhelming, so we simplified it radically. Just "good" or "needs attention," with depth available for those who want it. Because clarity is the first step to action.</div>
+      </div>
+      <div class="f-card">
+        <div class="f-card-icon amber">✉</div>
+        <div class="f-card-title">A space that feels safe to talk</div>
+        <div class="f-card-body">Talking about health, especially reproductive health, is deeply uncomfortable for many women. Our chatbot is designed to feel human, non-judgmental, and supportive. A space where there are no wrong questions.</div>
+      </div>
+    </div>
+
+    <p class="body-text">A fifth layer, an <strong>education module</strong> drawing from Indian Vedic science, offered yoga, pranayam, and healthy recipes, with a UI deliberately inspired by Instagram and YouTube. Familiar interfaces, unfamiliar depth.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section">
+    <p class="section-label">Design principles</p>
+    <h2 class="section-heading">The invisible work</h2>
+    <p class="body-text">Every design decision in this product passed through the same filter: <strong>does this make it easier for a woman to put herself first?</strong></p>
+
+    <div class="impact-strip">
+      <div class="impact-item">
+        <div class="impact-title">Not just tracking</div>
+        <div class="impact-desc">The product goes beyond data collection to actually enabling change</div>
+      </div>
+      <div class="impact-item">
+        <div class="impact-title">Slow shift</div>
+        <div class="impact-desc">It gradually teaches women that their health is worth prioritising</div>
+      </div>
+      <div class="impact-item">
+        <div class="impact-title">Radical simplicity</div>
+        <div class="impact-desc">Complexity is the enemy of daily use, so we stripped it away</div>
+      </div>
+      <div class="impact-item">
+        <div class="impact-title">Behaviour first</div>
+        <div class="impact-desc">What makes this valuable isn't the data, it's the action it inspires</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="closing">
+    <p class="closing-quote">"Health doesn't improve with data.<br>It improves with action."</p>
+    <p class="closing-attr">This product tries to make that easier.</p>
+  </div>
+
+</div>
+</body>
+</html>

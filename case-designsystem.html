@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ajna Design System · Deepali Pathe</title>
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+    <defs>
+      <radialGradient id="bloom" cx="50%" cy="40%" r="60%">
+        <stop offset="0%" stop-color="#2A3140" stop-opacity="0.9" />
+        <stop offset="100%" stop-color="#16181C" stop-opacity="0" />
+      </radialGradient>
+    </defs>
+    <rect width="1200" height="800" fill="#16181C" />
+    <circle cx="600" cy="320" r="380" fill="url(#bloom)" />
+    <text x="600" y="380" text-anchor="middle"
+          font-family="'Inter Tight', Georgia, serif"
+          font-weight="320" font-size="120"
+          fill="#E4E1DA" letter-spacing="-3">Ajna</text>
+    <text x="600" y="440" text-anchor="middle"
+          font-family="'Inter Tight', Georgia, serif"
+          font-style="italic" font-weight="300" font-size="42"
+          fill="#9FB2C8" letter-spacing="1">Design System</text>
+  </svg>
+</template>
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('portfolio.theme');
+      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+      else document.documentElement.setAttribute('data-theme', 'dark');
+    } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..600;1,300..500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #16181C; --bg-2: #1C1F24; --bg-3: #22262C;
+    --fg: #E4E1DA; --fg-muted: #9E9C94; --fg-dim: #5A5A54;
+    --line: #25282E; --accent: #9FB2C8; --accent-ink: #B6C5D8;
+    --warn: #D6BE8A; --radius: 3px;
+    --f-display: "Inter Tight", "Inter", system-ui, sans-serif;
+    --f-sans: "Inter", system-ui, sans-serif;
+  }
+  html[data-theme="light"] {
+    --bg: #F6F4F8; --bg-2: #EFEBF2; --bg-3: #E5E0EA;
+    --fg: #1F1B2A; --fg-muted: #4A4458; --fg-dim: #8A8298;
+    --line: #E2DCEA; --accent: #B07A8E; --accent-ink: #8E5C72;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--bg); color: var(--fg);
+    font-family: var(--f-sans); font-size: 16px; line-height: 1.7;
+    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+    transition: background-color 280ms cubic-bezier(0.22, 1, 0.36, 1),
+                color 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  body { overflow-x: hidden; font-weight: 400; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  em { font-style: italic; color: var(--fg); }
+  strong { font-weight: 500; color: var(--fg); }
+  ::selection { background: var(--accent); color: var(--bg); }
+
+  .wrap { width: min(1100px, 100% - 48px); margin: 0 auto; }
+  @media (max-width: 600px) { .wrap { width: min(1100px, 100% - 32px); } }
+
+  /* ===== Nav ===== */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 40;
+    padding: 14px 0;
+    background: color-mix(in oklab, var(--bg) 80%, transparent);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid color-mix(in oklab, var(--line) 60%, transparent);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    width: min(1100px, 100% - 48px); margin: 0 auto;
+  }
+  @media (max-width: 600px) { .nav-inner { width: min(1100px, 100% - 32px); } }
+  .nav-back {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--f-sans); font-size: 13px; font-weight: 500;
+    color: var(--fg-muted);
+    padding: 8px 14px 8px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: transparent;
+    transition: color .25s, border-color .25s, gap .25s, background .25s;
+  }
+  .nav-back:hover { color: var(--fg); border-color: var(--fg-dim); gap: 12px; background: var(--bg-2); }
+  .nav-back .arr { font-family: var(--f-display); font-size: 16px; transition: transform .3s cubic-bezier(.2,.7,.2,1); }
+  .nav-back:hover .arr { transform: translateX(-3px); }
+  .nav-meta {
+    font-family: var(--f-sans); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-dim);
+  }
+  .nav-meta .accent { color: var(--accent-ink); }
+  @media (max-width: 600px) { .nav-back span:not(.arr) { display: none; } .nav-back { padding: 8px 12px 8px 10px; } }
+
+  /* ===== Page layout ===== */
+  .page {
+    padding-top: clamp(112px, 14vw, 160px);
+    padding-bottom: clamp(80px, 10vw, 140px);
+  }
+
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    font-family: var(--f-sans); font-size: 11px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--fg-dim); margin-bottom: 28px;
+  }
+  .eyebrow .num { color: var(--accent-ink); }
+
+  .page-title {
+    font-family: var(--f-display); font-weight: 300;
+    font-size: clamp(36px, 6.5vw, 80px);
+    letter-spacing: -0.025em; line-height: 1.04;
+    text-wrap: balance; max-width: 22ch;
+    margin-bottom: 36px; color: var(--fg);
+  }
+  .page-title em { font-style: italic; font-weight: 280; color: var(--fg-muted); }
+  .page-title .accent { font-style: italic; color: var(--accent-ink); }
+
+  .page-lede {
+    font-family: var(--f-display); font-weight: 320;
+    font-size: clamp(18px, 2.4vw, 26px);
+    line-height: 1.5;
+    color: var(--fg-muted);
+    max-width: 56ch;
+    margin-bottom: 48px;
+    text-wrap: pretty;
+  }
+  .page-lede em { font-style: italic; color: var(--fg); }
+
+  .role-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 56px; }
+  .role-badge {
+    display: inline-block;
+    font-family: var(--f-sans); font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 7px 14px;
+    border: 1px solid color-mix(in oklab, var(--accent) 50%, transparent);
+    border-radius: 999px;
+    color: var(--accent-ink);
+  }
+
+  .page-meta {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 28px 48px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 28px 0;
+    margin-bottom: 64px;
+  }
+  .page-meta .row { display: flex; flex-direction: column; gap: 4px; }
+  .page-meta .k {
+    font-family: var(--f-sans); font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--fg-dim);
+  }
+  .page-meta .v {
+    font-family: var(--f-display); font-size: 15px; font-weight: 400;
+    color: var(--fg); letter-spacing: -0.01em;
+  }
+  @media (max-width: 700px) { .page-meta { grid-template-columns: repeat(2, 1fr); gap: 24px; } }
+
+  .cover {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: clamp(72px, 9vw, 112px);
+  }
+  .cover img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* ===== Sections ===== */
+  .section { margin-bottom: clamp(72px, 9vw, 112px); }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-family: var(--f-sans); font-size: 11px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--fg-dim); margin-bottom: 28px;
+  }
+  .section-label .num { color: var(--accent-ink); }
+
+  .section-h {
+    font-family: var(--f-display); font-weight: 320;
+    font-size: clamp(28px, 4.4vw, 48px);
+    letter-spacing: -0.025em; line-height: 1.12;
+    text-wrap: balance; max-width: 28ch;
+    margin-bottom: 28px; color: var(--fg);
+  }
+  .section-h em { font-style: italic; color: var(--fg-muted); font-weight: 300; }
+  .section-h .accent { font-style: italic; color: var(--accent-ink); }
+  .section-h .quiet { color: var(--fg-dim); font-size: 0.7em; display: block; margin-top: 4px; }
+
+  .prose p {
+    font-size: 17px; line-height: 1.7; color: var(--fg-muted);
+    margin-bottom: 18px; max-width: 62ch; text-wrap: pretty;
+  }
+  .prose p strong { color: var(--fg); font-weight: 500; }
+  .prose p em { color: var(--fg); }
+
+  .sub-h {
+    font-family: var(--f-display); font-weight: 400;
+    font-size: 16px; letter-spacing: -0.01em;
+    color: var(--fg); margin: 12px 0 8px;
+  }
+  .sub-p {
+    font-size: 14.5px; color: var(--fg-muted); line-height: 1.65;
+    max-width: 60ch; margin-bottom: 16px;
+  }
+
+  /* ===== System figures (large in-context visuals) ===== */
+  .system-figure {
+    margin: 36px 0 24px;
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color .3s, background .3s;
+  }
+  .system-figure:hover {
+    border-color: color-mix(in oklab, var(--accent) 50%, var(--line));
+  }
+  .system-figure img {
+    width: 100%; height: auto;
+    display: block;
+    background: var(--bg-2);
+  }
+  .system-figure-caption {
+    padding: 14px 20px 16px;
+    border-top: 1px solid var(--line);
+    display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+    font-family: var(--f-sans); font-size: 12.5px;
+    color: var(--fg-muted); line-height: 1.55;
+  }
+  .system-figure-caption .lbl {
+    font-family: var(--f-sans); font-size: 9px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent-ink);
+  }
+
+  /* ===== Insight cards ===== */
+  .insight-list {
+    display: flex; flex-direction: column; gap: 10px;
+    margin-top: 28px;
+  }
+  .insight-card {
+    display: flex; align-items: center; gap: 18px;
+    padding: 18px 22px;
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    border-radius: 12px;
+    transition: border-color .3s, background .3s, transform .4s cubic-bezier(.2,.7,.2,1);
+  }
+  .insight-card:hover {
+    border-color: color-mix(in oklab, var(--accent) 50%, var(--line));
+    background: var(--bg-3);
+    transform: translateY(-2px);
+  }
+  .insight-card .n {
+    flex: 0 0 32px; height: 32px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    border: 1px solid color-mix(in oklab, var(--accent) 50%, transparent);
+    font-family: var(--f-sans); font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--accent-ink);
+  }
+  .insight-card p { font-size: 15px; color: var(--fg-muted); line-height: 1.55; }
+
+  .built-for {
+    margin-top: 28px;
+    font-family: var(--f-sans); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--fg-dim);
+  }
+
+  /* ===== Num list ===== */
+  .num-list {
+    list-style: none; padding: 0; margin: 32px 0 0;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .num-list li {
+    display: flex; align-items: flex-start; gap: 18px;
+    font-size: 16px; color: var(--fg-muted); line-height: 1.6;
+  }
+  .num-list .n {
+    flex: 0 0 32px; height: 32px; margin-top: 2px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    border: 1px solid color-mix(in oklab, var(--accent) 50%, transparent);
+    font-family: var(--f-sans); font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--accent-ink);
+  }
+
+  /* ===== Token cards ===== */
+  .token-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-top: 32px;
+    margin-bottom: 64px;
+  }
+  .token-card {
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    border-radius: 14px;
+    padding: 28px;
+    display: flex; flex-direction: column; gap: 12px;
+    transition: border-color .3s, background .3s, transform .4s cubic-bezier(.2,.7,.2,1);
+  }
+  .token-card:hover {
+    border-color: color-mix(in oklab, var(--accent) 50%, var(--line));
+    background: var(--bg-3);
+    transform: translateY(-2px);
+  }
+  .token-card-head {
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  }
+  .token-card h4 {
+    font-family: var(--f-display); font-weight: 400;
+    font-size: 17px; letter-spacing: -0.015em;
+    color: var(--fg);
+  }
+  .token-card .count {
+    font-family: var(--f-sans); font-size: 9px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--accent-ink);
+    padding: 4px 10px;
+    border: 1px solid color-mix(in oklab, var(--accent) 30%, transparent);
+    border-radius: 999px;
+  }
+  .token-card p {
+    font-size: 13.5px; color: var(--fg-muted); line-height: 1.65;
+  }
+
+  /* ===== Typescale ===== */
+  .typescale {
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    border-radius: 14px;
+    padding: 8px 24px;
+    margin: 24px 0 64px;
+  }
+  .typescale-row {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1.4fr;
+    gap: 16px; align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .typescale-row:last-child { border-bottom: none; }
+  .typescale-row .device {
+    font-family: var(--f-sans); font-size: 11px;
+    color: var(--accent-ink); letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .typescale-row .val {
+    font-family: var(--f-sans); font-size: 12px;
+    color: var(--fg-muted);
+  }
+  .typescale-row .meta {
+    font-family: var(--f-sans); font-size: 11px;
+    color: var(--fg-dim); text-align: right;
+  }
+  @media (max-width: 600px) {
+    .typescale-row { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .typescale-row .meta { grid-column: 1 / -1; text-align: left; }
+  }
+
+  /* ===== Spacing tokens ===== */
+  .spacing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-top: 24px;
+  }
+  .spacing-card {
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    border-radius: 12px;
+    padding: 18px 22px;
+  }
+  .spacing-card .head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 12px;
+  }
+  .spacing-card .token {
+    font-family: var(--f-sans); font-size: 11px;
+    color: var(--accent-ink); letter-spacing: 0.08em;
+  }
+  .spacing-card .px {
+    font-family: var(--f-sans); font-size: 11px;
+    color: var(--fg-dim);
+  }
+  .spacing-card .bar {
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-ink));
+    opacity: 0.5;
+    margin-bottom: 12px;
+  }
+  .spacing-card .use {
+    font-size: 12.5px; color: var(--fg-muted); line-height: 1.5;
+  }
+
+  /* ===== Craft pair ===== */
+  .craft-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 32px;
+  }
+  @media (max-width: 600px) { .craft-pair { grid-template-columns: 1fr; } }
+  .craft-card {
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    border-radius: 14px;
+    padding: 28px;
+    transition: border-color .3s, background .3s, transform .4s cubic-bezier(.2,.7,.2,1);
+  }
+  .craft-card:hover {
+    border-color: var(--fg-dim);
+    background: var(--bg-3);
+    transform: translateY(-2px);
+  }
+  .craft-card .tag {
+    font-family: var(--f-sans); font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent-ink);
+    margin-bottom: 12px;
+  }
+  .craft-card p {
+    font-size: 14.5px; color: var(--fg-muted); line-height: 1.65;
+  }
+
+  /* ===== Constraints ===== */
+  .constraints {
+    list-style: none; padding: 0;
+    margin-top: 32px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .constraints li {
+    display: flex; align-items: center; gap: 14px;
+    color: var(--fg-muted); font-size: 15px; line-height: 1.55;
+  }
+  .constraints li::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+
+  /* ===== Impact cards ===== */
+  .impact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin-top: 32px;
+  }
+  .impact-card {
+    text-align: center;
+    padding: 32px 22px;
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    border-radius: 14px;
+    transition: border-color .3s, background .3s, transform .4s cubic-bezier(.2,.7,.2,1);
+  }
+  .impact-card:hover {
+    border-color: color-mix(in oklab, var(--accent) 50%, var(--line));
+    background: var(--bg-3);
+    transform: translateY(-3px);
+  }
+  .impact-card .v {
+    font-family: var(--f-display); font-weight: 320;
+    font-size: clamp(28px, 3.6vw, 40px);
+    letter-spacing: -0.022em; line-height: 1;
+    color: var(--accent-ink); font-style: italic;
+    margin-bottom: 14px;
+  }
+  .impact-card .v.plain {
+    color: var(--fg); font-style: normal;
+  }
+  .impact-card .l {
+    font-size: 13px; color: var(--fg-muted); line-height: 1.55;
+  }
+
+  /* ===== Takeaways ===== */
+  .takeaway-main {
+    border-left: 1px solid var(--accent);
+    padding: 26px 32px;
+    background: color-mix(in oklab, var(--accent) 6%, var(--bg-2));
+    border-radius: 0 14px 14px 0;
+    margin-top: 32px;
+  }
+  .takeaway-main .quote {
+    font-family: var(--f-display); font-weight: 320; font-style: italic;
+    font-size: clamp(19px, 2.2vw, 26px); line-height: 1.4;
+    letter-spacing: -0.015em; color: var(--fg);
+    margin-bottom: 14px;
+  }
+  .takeaway-main .sub {
+    font-size: 15px; color: var(--fg-muted); line-height: 1.65;
+  }
+
+  .reflection-pair {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px; margin-top: 24px;
+  }
+  @media (max-width: 600px) { .reflection-pair { grid-template-columns: 1fr; } }
+  .reflection-card {
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    border-radius: 14px;
+    padding: 24px;
+  }
+  .reflection-card .tag {
+    font-family: var(--f-sans); font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent-ink);
+    margin-bottom: 12px;
+  }
+  .reflection-card p {
+    font-size: 14.5px; color: var(--fg-muted); line-height: 1.65;
+  }
+
+  /* ===== Footer CTA ===== */
+  .footer-cta {
+    margin-top: clamp(72px, 9vw, 112px);
+    padding: clamp(36px, 4.5vw, 56px);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--bg-2);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 32px; flex-wrap: wrap;
+  }
+  .footer-cta .t {
+    font-family: var(--f-display); font-weight: 320;
+    font-size: clamp(22px, 2.8vw, 30px); letter-spacing: -0.02em;
+    line-height: 1.2; color: var(--fg); max-width: 24ch;
+  }
+  .footer-cta .t em { font-style: italic; color: var(--fg-muted); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 22px;
+    border: 1px solid var(--line); border-radius: 999px;
+    font-family: var(--f-sans); font-size: 12px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--fg); font-weight: 500;
+    transition: all .25s cubic-bezier(.2,.7,.2,1);
+  }
+  .btn:hover { border-color: var(--fg-dim); gap: 14px; }
+  .btn-primary { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  .btn-primary:hover { background: var(--accent-ink); border-color: var(--accent-ink); color: var(--bg); }
+
+  .page-next {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    margin-top: 24px;
+  }
+  @media (max-width: 600px) { .page-next { grid-template-columns: 1fr; } }
+  .page-next a {
+    padding: 24px;
+    border: 1px solid var(--line); border-radius: 14px;
+    background: var(--bg-2);
+    transition: border-color .25s, transform .4s cubic-bezier(.2,.7,.2,1), background .25s;
+    display: block;
+  }
+  .page-next a:hover { border-color: var(--fg-dim); transform: translateY(-2px); background: var(--bg-3); }
+  .page-next .k {
+    font-family: var(--f-sans); font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--fg-dim); margin-bottom: 12px; display: block;
+  }
+  .page-next .v {
+    font-family: var(--f-display); font-weight: 400;
+    font-size: 18px; letter-spacing: -0.01em;
+    color: var(--fg); line-height: 1.25;
+  }
+  .page-next a.next { text-align: right; }
+  @media (max-width: 600px) { .page-next a.next { text-align: left; } }
+
+  /* ===== Reveal ===== */
+  .reveal {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 1.1s cubic-bezier(.22,1,.36,1), transform 1.1s cubic-bezier(.22,1,.36,1);
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
+
+  /* ===== Back to top ===== */
+  .to-top {
+    position: fixed;
+    right: clamp(20px, 3vw, 40px);
+    bottom: clamp(24px, 4vw, 48px);
+    z-index: 50;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 14px;
+    border: 1px solid var(--line); border-radius: 999px;
+    background: var(--bg-2); color: var(--fg-muted);
+    font-family: var(--f-sans); font-size: 11px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    backdrop-filter: blur(10px);
+    opacity: 0; pointer-events: none; transform: translateY(8px);
+    transition: opacity .5s cubic-bezier(.2,.7,.2,1), transform .5s, border-color .25s, color .25s;
+  }
+  .to-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  .to-top:hover { color: var(--fg); border-color: var(--fg-dim); }
+  .to-top .arr {
+    font-family: var(--f-display); font-size: 13px;
+    transition: transform .3s cubic-bezier(.2,.7,.2,1);
+  }
+  .to-top:hover .arr { transform: translateY(-2px); }
+  @media (max-width: 600px) { .to-top .label { display: none; } }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="Portfolio.html" class="nav-back">
+      <span class="arr">←</span><span>Back to portfolio</span>
+    </a>
+    <div class="nav-meta"><span class="accent">02</span> · Ajna Design System</div>
+  </div>
+</nav>
+
+<main class="page">
+  <div class="wrap">
+
+    <!-- Hero -->
+    <div class="reveal">
+      <div class="eyebrow">
+        <span class="num">02</span><span>·</span><span>Design System · Internal Tools · 2025</span>
+      </div>
+      <h1 class="page-title"><span class="accent">Ajna</span> <em>Design System.</em></h1>
+      <p class="page-lede">
+        Bringing structure, speed, and dark mode to internal tools, so every team stops <em>reinventing the same button.</em>
+      </p>
+      <div class="role-badges">
+        <span class="role-badge">Design Systems</span>
+        <span class="role-badge">Figma Variables</span>
+        <span class="role-badge">Dark Mode</span>
+        <span class="role-badge">Component Architecture</span>
+        <span class="role-badge">Developer Handoff</span>
+      </div>
+    </div>
+
+    <div class="page-meta reveal">
+      <div class="row"><span class="k">Project</span><span class="v">Ajna Design System</span></div>
+      <div class="row"><span class="k">Role</span><span class="v">Product Designer</span></div>
+      <div class="row"><span class="k">Type</span><span class="v">Internal tools · System</span></div>
+      <div class="row"><span class="k">Year</span><span class="v">2025</span></div>
+    </div>
+
+    <div class="cover reveal">
+      <img src="assets/thumb-designsystem.png" alt="Ajna Design System" />
+    </div>
+
+    <!-- 01 Problem -->
+    <section class="section reveal">
+      <div class="section-label"><span class="num">01</span><span>The problem</span></div>
+      <h2 class="section-h">
+        Every team was designing <em>the same button.</em>
+        <span class="quiet">Again. And again. And again.</span>
+      </h2>
+      <div class="prose">
+        <p>Internal tools lacked visual consistency. Buttons, forms, layouts, every team was building them from scratch, wasting time and introducing inconsistencies that compounded across products. Developers spent hours in back-and-forth over specs that should have been self-evident. Designers wanted templates they could trust.</p>
+      </div>
+
+      <h3 class="sub-h">Research insights</h3>
+      <div class="insight-list">
+        <div class="insight-card">
+          <span class="n">01</span>
+          <p>Inconsistent visual patterns across tools.</p>
+        </div>
+        <div class="insight-card">
+          <span class="n">02</span>
+          <p>Developers needed cleaner specs to reduce back-and-forth.</p>
+        </div>
+        <div class="insight-card">
+          <span class="n">03</span>
+          <p>Designers wanted ready-made templates and variants to move faster.</p>
+        </div>
+      </div>
+      <p class="built-for">Built for: Product &amp; engineering teams · Designers · Developers</p>
+    </section>
+
+    <!-- 02 Role -->
+    <section class="section reveal">
+      <div class="section-label"><span class="num">02</span><span>My role</span></div>
+      <h2 class="section-h">Not just designing components. <span class="accent">Architecting decisions.</span></h2>
+      <ol class="num-list">
+        <li><span class="n">01</span><span>Structured components using variants and variables.</span></li>
+        <li><span class="n">02</span><span>Applied Figma variable modes to enable one-click dark mode.</span></li>
+        <li><span class="n">03</span><span>Used auto layout + variables to ensure responsive behavior.</span></li>
+        <li><span class="n">04</span><span>Documented usage and worked closely with developers to ensure feasibility.</span></li>
+        <li><span class="n">05</span><span>Explored edge cases through real-world use and feedback loops.</span></li>
+      </ol>
+    </section>
+
+    <!-- 03 The System -->
+    <section class="section reveal">
+      <div class="section-label"><span class="num">03</span><span>The system</span></div>
+      <h2 class="section-h">Tokens, <em>not opinions.</em></h2>
+      <div class="prose">
+        <p>Every visual decision, color, spacing, type, borders, was encoded into tokens that scale across contexts and switch themes in one click.</p>
+      </div>
+
+      <div class="token-grid">
+        <div class="token-card">
+          <div class="token-card-head">
+            <h4>Buttons &amp; Links</h4>
+            <span class="count">8 variants</span>
+          </div>
+          <p>Primary, Secondary (1 &amp; 2), Tertiary (1 &amp; 2), Error, Success, Warning, Informational, each with Default, Hover, Active, Focus and Disabled states.</p>
+        </div>
+        <div class="token-card">
+          <div class="token-card-head">
+            <h4>Text &amp; Icons</h4>
+            <span class="count">8 semantic colors</span>
+          </div>
+          <p>Primary, Secondary (1 &amp; 2), Tertiary, Error, Success, Warning, Informational, mapped to content hierarchy from headings to captions.</p>
+        </div>
+        <div class="token-card">
+          <div class="token-card-head">
+            <h4>Backgrounds</h4>
+            <span class="count">5 layers deep</span>
+          </div>
+          <p>Primary → Secondary → Tertiary (1 &amp; 2) → Accent. Each layer semantically named so nesting feels automatic, not manual.</p>
+        </div>
+        <div class="token-card">
+          <div class="token-card-head">
+            <h4>Borders &amp; Dividers</h4>
+            <span class="count">4 weights</span>
+          </div>
+          <p>Extra-light, Light, Dark, Extra-dark, separate tokens for dashboard vs. website contexts.</p>
+        </div>
+      </div>
+
+      <h3 class="sub-h">Components in use</h3>
+      <p class="sub-p">A snapshot of patterns assembled from the same tokens, date picker, search + checkbox list, label group, list item, avatar stack, progress bar, pagination and card.</p>
+      <figure class="system-figure">
+        <img src="assets/designsystem/components-grid.png" alt="A selection of AjnaLens design system components: date picker, checkbox list, label group, content card, list item, avatar stack, progress bar and pagination." />
+        <figcaption class="system-figure-caption">
+          <span class="lbl">Components</span>
+          <span>8 patterns built on the same set of color, spacing and type tokens.</span>
+        </figcaption>
+      </figure>
+
+      <h3 class="sub-h">The full spec sheet</h3>
+      <p class="sub-p">Button states, semantic text and background colors, border weights and the responsive typescale, all defined once and referenced everywhere.</p>
+      <figure class="system-figure">
+        <img src="assets/designsystem/system-spec.png" alt="Full design system specification: button variants across all states, semantic text and background colors, border weights, and typescales for mobile, tablet portrait and tablet landscape." />
+        <figcaption class="system-figure-caption">
+          <span class="lbl">Foundations</span>
+          <span>Button states &middot; semantic text &amp; background colors &middot; border weights &middot; mobile and tablet typescales.</span>
+        </figcaption>
+      </figure>
+
+      <h3 class="sub-h">Responsive typescale</h3>
+      <p class="sub-p">A harmonious scale across four breakpoints, every token named, sized and weighted for its exact purpose in the hierarchy.</p>
+      <div class="typescale">
+        <div class="typescale-row">
+          <span class="device">Mobile</span>
+          <span class="val">h1: 32 / 40</span>
+          <span class="meta">body: 14 / 20 · 10 tokens</span>
+        </div>
+        <div class="typescale-row">
+          <span class="device">Tablet Portrait</span>
+          <span class="val">h1: 40 / 48</span>
+          <span class="meta">body: 16 / 24 · 10 tokens</span>
+        </div>
+        <div class="typescale-row">
+          <span class="device">Tablet Landscape</span>
+          <span class="val">h1: 40 / 48</span>
+          <span class="meta">body: 16 / 24 · 10 tokens</span>
+        </div>
+        <div class="typescale-row">
+          <span class="device">Desktop Large</span>
+          <span class="val">h1: 56 / 64</span>
+          <span class="meta">body: 18 / 24 · 10 tokens</span>
+        </div>
+      </div>
+
+      <h3 class="sub-h">Spacing system</h3>
+      <p class="sub-p">16 tokens from 2px to 80px, from icon-text micro-gaps to major section breaks.</p>
+      <div class="spacing-grid">
+        <div class="spacing-card">
+          <div class="head"><span class="token">Spacing-1</span><span class="px">2px</span></div>
+          <div class="bar" style="width: 6%"></div>
+          <p class="use">Icon-text gaps, badge padding</p>
+        </div>
+        <div class="spacing-card">
+          <div class="head"><span class="token">Spacing-5</span><span class="px">16px</span></div>
+          <div class="bar" style="width: 22%"></div>
+          <p class="use">Button padding, avatar spacing</p>
+        </div>
+        <div class="spacing-card">
+          <div class="head"><span class="token">Spacing-9</span><span class="px">32px</span></div>
+          <div class="bar" style="width: 45%"></div>
+          <p class="use">Card internal spacing</p>
+        </div>
+        <div class="spacing-card">
+          <div class="head"><span class="token">Spacing-16</span><span class="px">80px</span></div>
+          <div class="bar" style="width: 100%"></div>
+          <p class="use">Major section breaks</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 Craft -->
+    <section class="section reveal">
+      <div class="section-label"><span class="num">04</span><span>The craft</span></div>
+      <h2 class="section-h">Dark mode wasn't a feature. <span class="accent">It was a proof of architecture.</span></h2>
+      <div class="craft-pair">
+        <div class="craft-card">
+          <div class="tag">Variables → Modes</div>
+          <p>Figma variable modes meant dark mode wasn't a separate file or a duplication nightmare. One click. Every component. Every screen.</p>
+        </div>
+        <div class="craft-card">
+          <div class="tag">Layered Components</div>
+          <p>Clear override logic so designers could customize without breaking the system. Flexibility without chaos.</p>
+        </div>
+      </div>
+
+      <h3 class="sub-h" style="margin-top: 32px;">Constraints &amp; trade-offs</h3>
+      <ul class="constraints">
+        <li>Needed to work with existing design legacy where possible.</li>
+        <li>Prioritized depth over breadth, fewer components, better quality.</li>
+        <li>Scoped system to 2D only for faster adoption across teams.</li>
+      </ul>
+    </section>
+
+    <!-- 05 Impact -->
+    <section class="section reveal">
+      <div class="section-label"><span class="num">05</span><span>Impact</span></div>
+      <h2 class="section-h">Numbers that <em>moved.</em></h2>
+      <div class="impact-grid">
+        <div class="impact-card">
+          <div class="v">40%</div>
+          <div class="l">Faster design workflow for common flows</div>
+        </div>
+        <div class="impact-card">
+          <div class="v plain">Fewer</div>
+          <div class="l">Dev questions, clearer specs end-to-end</div>
+        </div>
+        <div class="impact-card">
+          <div class="v">1-click</div>
+          <div class="l">Dark mode toggle adopted across all tools</div>
+        </div>
+        <div class="impact-card">
+          <div class="v plain">All</div>
+          <div class="l">Starting point for every new internal product</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 Reflection -->
+    <section class="section reveal">
+      <div class="section-label"><span class="num">06</span><span>Reflection</span></div>
+      <h2 class="section-h">The biggest win wasn't <span class="accent">the dark mode toggle.</span></h2>
+      <div class="takeaway-main">
+        <p class="quote">"Working on Ajna taught me the power of good structure. Small decisions in token naming or variable logic can impact teams weeks later."</p>
+        <p class="sub">The dark mode toggle was fun to build. But the biggest win was watching other designers move faster, with less friction. That's what a design system is actually for.</p>
+      </div>
+
+      <div class="reflection-pair">
+        <div class="reflection-card">
+          <div class="tag">What stuck</div>
+          <p>Variables aren't just a Figma feature, they're a way of thinking about decisions that need to scale.</p>
+        </div>
+        <div class="reflection-card">
+          <div class="tag">What I'd do differently</div>
+          <p>Start with developer feedback earlier. The best tokens are the ones engineers actually want to use.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer CTA -->
+    <div class="footer-cta reveal">
+      <div class="t">Want to <em>play with the system?</em></div>
+      <a href="https://www.figma.com/proto/eYEj62rA6f9GXFZiSTiwkI/Babble-Redesign-Challenge?node-id=1417-4672&t=r4u1sYRGGr6ICOfZ-0&scaling=min-zoom&content-scaling=fixed&page-id=58%3A2625&starting-point-node-id=58%3A2745" target="_blank" rel="noopener" class="btn btn-primary">Open Figma prototype <span class="arr">↗</span></a>
+    </div>
+
+    <div class="page-next reveal">
+      <a href="case-smartband.html" class="prev">
+        <span class="k">← Previous</span>
+        <span class="v">Smartband for Women</span>
+      </a>
+      <a href="case-babbel.html" class="next">
+        <span class="k">Next →</span>
+        <span class="v">Babbel · App redesign</span>
+      </a>
+    </div>
+
+  </div>
+</main>
+
+<a href="#" class="to-top" id="toTop" aria-label="Back to top">
+  <span class="arr">↑</span><span class="label">Top</span>
+</a>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.reveal').forEach((el, i) => { if (i < 2) el.classList.add('visible'); });
+  });
+
+  const toTop = document.getElementById('toTop');
+  const update = () => {
+    if (window.scrollY > window.innerHeight * 0.7) toTop.classList.add('visible');
+    else toTop.classList.remove('visible');
+  };
+  window.addEventListener('scroll', update, { passive: true });
+  toTop.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  update();
+</script>
+
+</body>
+</html>
