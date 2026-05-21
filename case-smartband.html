@@ -400,6 +400,7 @@
    .screen-card .frame {
     /* aspect-ratio: 9 / 16; */
     width: 100%; height: auto;
+    min-height: 260px; 
     background: var(--bg);
     /* background: red; */
     overflow: hidden;
@@ -408,7 +409,7 @@
   }
   .screen-card .frame img {
     width: 100%; height: auto;
-    object-fit: cover; object-position: top center; border-radius: 22px;
+    object-fit: fill; object-position: top center; border-radius: 22px;
   }
   .screen-card .meta {
     padding: 14px 18px 18px;
@@ -574,7 +575,13 @@
   }
   .page-next a.next { text-align: right; }
   @media (max-width: 600px) { .page-next a.next { text-align: left; } }
-
+  @media (max-width: 700px) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
   /* ===== Reveal ===== */
   .reveal {
     opacity: 0; transform: translateY(20px);
@@ -916,10 +923,10 @@
         io.unobserve(e.target);
       }
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+  }, { threshold: 0.1, rootMargin: '0px 0px 0px 0px' });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
   requestAnimationFrame(() => {
-    document.querySelectorAll('.reveal').forEach((el, i) => { if (i < 2) el.classList.add('visible'); });
+    document.querySelectorAll('.reveal').forEach((el, i) => { if (i < 4) el.classList.add('visible'); });
   });
 
   const toTop = document.getElementById('toTop');
