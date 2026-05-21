@@ -755,6 +755,250 @@
     .layout-index .case-sub { display: none; }
   }
 
+  /* ----- Variant D: Cards (2x2, image-on-top + folder-tab band) ----- */
+  .work-list.layout-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(20px, 3vw, 40px);
+    align-items: stretch;
+  }
+  @media (max-width: 900px) {
+    .work-list.layout-cards { grid-template-columns: 1fr; gap: clamp(28px, 5vw, 40px); }
+  }
+  .layout-cards .case {
+    position: relative;
+    display: flex !important;
+    flex-direction: column;
+    gap: 0 !important;
+    min-height: 0 !important;
+    grid-template-columns: unset !important;
+    border-radius: 18px;
+    overflow: visible;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    transition: transform .6s cubic-bezier(.2,.7,.2,1);
+  }
+  .layout-cards .case {
+    position: relative;
+    display: flex !important;
+    flex-direction: column;
+    gap: 0 !important;
+    min-height: 0 !important;
+    grid-template-columns: unset !important;
+    padding: clamp(14px, 1.4vw, 18px) clamp(14px, 1.4vw, 18px) 0;
+    border-radius: 22px;
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 60%, rgba(255,255,255,0.04) 100%);
+    backdrop-filter: blur(14px) saturate(130%);
+    -webkit-backdrop-filter: blur(14px) saturate(130%);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow:
+      0 30px 60px -28px rgba(0,0,0,0.6),
+      0 8px 20px -10px rgba(0,0,0,0.4),
+      inset 0 1px 0 rgba(255,255,255,0.06),
+      inset 0 -1px 0 rgba(0,0,0,0.25);
+    transition: transform .6s cubic-bezier(.2,.7,.2,1), box-shadow .6s cubic-bezier(.2,.7,.2,1);
+    filter: none;
+  }
+  .layout-cards .case:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      0 42px 70px -22px rgba(0,0,0,0.7),
+      0 10px 24px -10px rgba(0,0,0,0.45),
+      inset 0 1px 0 rgba(255,255,255,0.08),
+      inset 0 -1px 0 rgba(0,0,0,0.3);
+    filter: none;
+  }
+
+  .layout-cards .case-hero {
+    position: relative !important;
+    aspect-ratio: 16 / 9 !important;
+    height: auto !important;
+    width: 100%;
+    border-radius: 12px !important;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08) !important;
+    background: var(--bg-3);
+    margin: 0 !important;
+    box-shadow:
+      0 14px 24px -12px rgba(0,0,0,0.6),
+      0 2px 6px -2px rgba(0,0,0,0.4),
+      inset 0 1px 0 rgba(255,255,255,0.04);
+    transition: box-shadow .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1);
+  }
+  .layout-cards .case:hover .case-hero {
+    box-shadow:
+      0 18px 30px -12px rgba(0,0,0,0.7),
+      0 3px 8px -2px rgba(0,0,0,0.45),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  /* Soft bottom shadow on image edge — implies the thumbnail is tucked into the folder pocket */
+  .layout-cards .case-hero::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 56px;
+    background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.28) 70%, rgba(0,0,0,0.48) 100%);
+    pointer-events: none;
+  }
+  @media (max-width: 600px) {
+    .layout-cards .case-hero { aspect-ratio: 16 / 9 !important; border-radius: 10px !important; }
+  }
+  .layout-cards .case-hero .hero-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    border-radius: 0 !important;
+    transition: transform .9s cubic-bezier(.2,.7,.2,1);
+  }
+  .layout-cards .case:hover .case-hero .hero-img { transform: scale(1.04); }
+
+  .layout-cards .case-grid {
+    display: contents !important;
+    gap: 0 !important;
+    padding: 0 !important;
+  }
+  .layout-cards .case-meta-rail,
+  .layout-cards .case-kv,
+  .layout-cards .case-summary { display: none !important; }
+
+  .layout-cards .case-body {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    margin: -60px calc(clamp(14px, 1.4vw, 18px) * -1) 0;
+    width: auto;
+    align-self: stretch;
+    padding: clamp(28px, 3vw, 38px) clamp(20px, 2.4vw, 28px) clamp(18px, 2.2vw, 24px);
+    background:
+      linear-gradient(180deg, rgba(18,20,24,0.70) 0%, rgba(18,20,24,0.70) 100%);
+    backdrop-filter: blur(70px) saturate(170%) brightness(0.92);
+    -webkit-backdrop-filter: blur(70px) saturate(170%) brightness(0.92);
+    border-radius: 0 18px 22px 22px;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.10),
+      0 -14px 30px -10px rgba(0,0,0,0.45);
+  }
+  /* Folder tab — same darker glass material so the merged silhouette stays consistent */
+  .layout-cards .case-body::before {
+    content: '';
+    position: absolute;
+    bottom: calc(100% - 1px);
+    left: 0;
+    width: clamp(140px, 48%, 280px);
+    height: 24px;
+    background:
+      linear-gradient(180deg, rgba(18,20,24,0.70) 0%, rgba(18,20,24,0.70) 100%);
+    backdrop-filter: blur(70px) saturate(170%) brightness(0.92);
+    -webkit-backdrop-filter: blur(70px) saturate(170%) brightness(0.92);
+    border: none;
+    border-radius: 16px 16px 0 0;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.10);
+  }
+  /* Concave fill removed — tab + body share material and now appear as one merged shape */
+  .layout-cards .case-body::after { display: none; }
+  @media (max-width: 600px) {
+    .layout-cards .case-body {
+      margin-top: -48px;
+      padding: 22px 16px 16px;
+      border-radius: 0 14px 18px 18px;
+    }
+    .layout-cards .case-body::before { height: 20px; width: clamp(120px, 50%, 220px); border-radius: 14px 14px 0 0; }
+  }
+  .layout-cards .case-title {
+    font-family: var(--f-display) !important;
+    font-size: clamp(17px, 1.7vw, 22px) !important;
+    font-weight: 360 !important;
+    line-height: 1.22 !important;
+    letter-spacing: -0.015em !important;
+    margin: 0 !important;
+    color: var(--fg) !important;
+    text-wrap: balance;
+  }
+  .layout-cards .case-title em {
+    color: var(--fg-muted) !important;
+    font-weight: 320 !important;
+  }
+  .layout-cards .case-subline {
+    font-family: var(--f-sans);
+    font-size: clamp(12.5px, 1.2vw, 13.5px);
+    line-height: 1.5;
+    color: var(--fg-muted);
+    margin: 0;
+    text-wrap: pretty;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+  .layout-cards .case-link {
+    margin-top: 6px;
+    padding-top: 4px;
+    align-self: flex-start;
+    font-size: 11px;
+    color: var(--fg-muted);
+    border-bottom: 1px solid var(--fg-dim);
+  }
+  .layout-cards .case-link:hover {
+    color: var(--fg);
+    border-bottom-color: var(--fg);
+  }
+
+  /* Light theme: lighter glass + warmer shadows */
+  html[data-theme="light"] .layout-cards .case {
+    background: linear-gradient(180deg, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0.45) 100%);
+    border: 1px solid rgba(255,255,255,0.7);
+    box-shadow:
+      0 30px 50px -24px rgba(60,50,80,0.22),
+      0 8px 18px -8px rgba(60,50,80,0.14),
+      inset 0 1px 0 rgba(255,255,255,0.9),
+      inset 0 -1px 0 rgba(60,50,80,0.06);
+  }
+  html[data-theme="light"] .layout-cards .case:hover {
+    box-shadow:
+      0 42px 60px -22px rgba(60,50,80,0.28),
+      0 10px 22px -8px rgba(60,50,80,0.18),
+      inset 0 1px 0 rgba(255,255,255,0.95),
+      inset 0 -1px 0 rgba(60,50,80,0.08);
+  }
+  html[data-theme="light"] .layout-cards .case-hero {
+    border: 1px solid rgba(60,50,80,0.08) !important;
+    box-shadow:
+      0 12px 20px -10px rgba(60,50,80,0.22),
+      0 2px 6px -2px rgba(60,50,80,0.14),
+      inset 0 1px 0 rgba(255,255,255,0.5);
+  }
+  html[data-theme="light"] .layout-cards .case-hero::after {
+    background: linear-gradient(to bottom, transparent 0%, rgba(60,50,80,0.10) 70%, rgba(60,50,80,0.20) 100%);
+  }
+  html[data-theme="light"] .layout-cards .case-body {
+    background: linear-gradient(180deg, rgba(255,255,255,0.70) 0%, rgba(255,255,255,0.70) 100%);
+    backdrop-filter: blur(70px) saturate(180%);
+    -webkit-backdrop-filter: blur(70px) saturate(180%);
+    border: none;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.95), 0 -10px 22px -10px rgba(60,50,80,0.12);
+  }
+  html[data-theme="light"] .layout-cards .case-body::before {
+    background: linear-gradient(180deg, rgba(255,255,255,0.70) 0%, rgba(255,255,255,0.70) 100%);
+    backdrop-filter: blur(70px) saturate(180%);
+    -webkit-backdrop-filter: blur(70px) saturate(180%);
+    border: none;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.95);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .layout-cards .case, .layout-cards .case-hero .hero-img { transition: none; }
+    .layout-cards .case:hover { transform: none; }
+    .layout-cards .case:hover .case-hero .hero-img { transform: none; }
+  }
+
   /* ---------- Hero surfaces (placeholders styled as product screenshots) ---------- */
   .surface {
     width: 100%; height: 100%;
@@ -925,6 +1169,382 @@
   .about-meta .row { display: grid; grid-template-columns: 90px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
   .about-meta .row .k { text-transform: uppercase; }
   .about-meta .row .v { color: var(--fg); font-family: var(--f-sans); letter-spacing: normal; font-size: 14px; }
+
+  /* ---------- About: visual blocks (Experience / Tools / Skills) ---------- */
+  .about-stack {
+    margin-top: clamp(56px, 7vw, 88px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(48px, 6vw, 72px);
+  }
+
+  /* ---------- About: BENTO GRID ---------- */
+  .about-bento {
+    margin-top: clamp(56px, 7vw, 88px);
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    grid-auto-rows: auto;
+    gap: 16px;
+    align-items: stretch;
+  }
+  @media (max-width: 900px) {
+    .about-bento { grid-template-columns: 1fr; }
+  }
+  .bento-card {
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: clamp(20px, 2.4vw, 28px);
+    transition: border-color .25s, background .25s;
+    display: flex;
+    flex-direction: column;
+  }
+  .bento-card:hover { border-color: var(--fg-dim); }
+  .bento-card.span-2 { grid-column: span 2; }
+  @media (max-width: 900px) { .bento-card.span-2 { grid-column: span 1; } }
+  .bento-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+  .bento-head .label { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-dim); }
+  .bento-head h3 { font-family: var(--f-display); font-weight: 320; font-size: clamp(18px, 1.8vw, 22px); letter-spacing: -0.015em; line-height: 1.18; color: var(--fg); }
+  .bento-head h3 em { font-style: italic; color: var(--fg-muted); font-weight: 300; }
+
+  /* Sticky journey card */
+  .bento-journey {
+    position: sticky;
+    top: 100px;
+    align-self: start;
+    display: flex; flex-direction: column;
+  }
+  @media (max-width: 900px) { .bento-journey { position: static; top: auto; } }
+  .journey-headline {
+    font-family: var(--f-display);
+    font-size: clamp(24px, 2.6vw, 32px);
+    font-weight: 320;
+    letter-spacing: -0.018em;
+    line-height: 1.18;
+    color: var(--fg);
+    margin-bottom: 6px;
+    text-wrap: balance;
+  }
+  .journey-headline em { font-style: italic; color: var(--fg-muted); font-weight: 300; }
+  .journey-headline .accent { color: var(--accent-ink); font-style: italic; }
+  .journey-sub {
+    font-family: var(--f-sans); font-size: 13.5px; line-height: 1.55;
+    color: var(--fg-muted); margin-bottom: 22px;
+    max-width: 38ch;
+  }
+
+  .journey-timeline { display: flex; flex-direction: column; position: relative; padding-left: 20px; }
+  .journey-timeline::before {
+    content: ''; position: absolute;
+    left: 7px; top: 8px; bottom: 8px;
+    width: 1px;
+    background: linear-gradient(180deg, var(--accent-ink), var(--line) 80%, transparent);
+    opacity: 0.5;
+  }
+  .journey-step { position: relative; padding: 10px 0 14px; }
+  .journey-step::before {
+    content: ''; position: absolute;
+    left: -20px; top: 16px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--bg-2);
+    border: 1.5px solid var(--fg-dim);
+  }
+  .journey-step.active::before {
+    border-color: var(--accent-ink);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent-ink) 18%, transparent);
+  }
+  .journey-when { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-dim); margin-bottom: 4px; }
+  .journey-what { font-family: var(--f-sans); font-size: 14.5px; color: var(--fg); line-height: 1.4; font-weight: 500; }
+  .journey-what em { font-style: italic; color: var(--accent-ink); font-weight: 400; }
+  .journey-note { font-family: var(--f-sans); font-size: 12.5px; color: var(--fg-muted); line-height: 1.5; margin-top: 3px; }
+
+  /* Right column stack of bento cards */
+  .bento-right { display: flex; flex-direction: column; gap: 16px; }
+
+  /* Experience timeline with real logos */
+  .exp-list {
+    display: flex; flex-direction: column;
+  }
+  .exp-item {
+    display: grid;
+    grid-template-columns: 44px 1fr auto;
+    gap: 16px;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    transition: padding .35s cubic-bezier(.2,.7,.2,1);
+  }
+  .exp-item { grid-template-columns: 40px 1fr auto; align-items: start; padding: 18px 0; }
+  .exp-item:last-child { border-bottom: none; }
+  .exp-item:hover { padding-left: 8px; }
+  .exp-logo {
+    width: 40px; height: 40px;
+    border-radius: 9px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .exp-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .exp-logo.has-logo { background: transparent; border-color: rgba(255,255,255,0.06); }
+  .exp-logo .fallback {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--fg-muted); font-family: var(--f-display); font-size: 14px; font-weight: 500;
+    background: var(--bg);
+  }
+  /* Hide fallback when image loaded successfully */
+  .exp-logo img + .fallback { display: none; }
+  .exp-logo img[data-failed="1"] + .fallback { display: flex; }
+  .exp-logo img[data-failed="1"] { display: none; }
+  .exp-body { min-width: 0; }
+  .exp-role { font-family: var(--f-sans); font-size: 14px; font-weight: 500; color: var(--fg); line-height: 1.3; }
+  .exp-where { font-family: var(--f-sans); font-size: 12.5px; color: var(--fg-muted); margin-top: 2px; }
+  .exp-where .sep { color: var(--fg-dim); margin: 0 6px; }
+  .exp-blurb {
+    font-family: var(--f-sans); font-size: 12px;
+    color: var(--fg-dim); line-height: 1.5;
+    margin-top: 6px;
+    grid-column: 2 / -1;
+    max-width: 56ch;
+  }
+  .exp-when { font-family: var(--f-mono); font-size: 10.5px; color: var(--fg-dim); letter-spacing: 0.06em; text-align: right; white-space: nowrap; }
+  @media (max-width: 600px) {
+    .exp-item { grid-template-columns: 36px 1fr; grid-template-rows: auto auto; gap: 6px 12px; padding: 12px 0; }
+    .exp-body { grid-column: 2; }
+    .exp-when { grid-column: 2; text-align: left; margin-top: -2px; }
+  }
+
+  /* Tools mini-grid with brand logos */
+  .tools-mini {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+    gap: 10px;
+    align-content: start;
+  }
+  .tool-mini {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 8px;
+    padding: 14px 8px 12px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    transition: border-color .2s, background .2s, transform .35s cubic-bezier(.2,.7,.2,1);
+  }
+  .tool-mini:hover { border-color: var(--fg-dim); background: var(--bg-3); transform: translateY(-2px); }
+  .tool-mini .icon {
+    width: 36px; height: 36px;
+    display: inline-flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    position: relative;
+    border-radius: 8px;
+  }
+  .tool-mini .icon.has-logo { background: transparent; }
+  .tool-mini .icon img { width: 100%; height: 100%; object-fit: contain; }
+  .tool-mini .icon svg { width: 100%; height: 100%; color: var(--fg); }
+  .tool-mini .name { font-family: var(--f-sans); font-size: 11.5px; color: var(--fg); font-weight: 500; letter-spacing: -0.005em; }
+
+  /* Skill chips */
+  .skill-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .skill-chip {
+    font-family: var(--f-sans); font-size: 11.5px;
+    color: var(--fg-muted);
+    padding: 6px 12px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--bg);
+    transition: color .2s, border-color .2s, background .2s;
+  }
+  .skill-chip:hover { color: var(--fg); border-color: var(--fg-dim); background: var(--bg-3); }
+
+  /* ---------- Testimonials ---------- */
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+  @media (max-width: 900px) { .testimonials-grid { grid-template-columns: 1fr; } }
+  .testimonial-card {
+    position: relative;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: clamp(22px, 2.6vw, 30px);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    transition: border-color .25s, transform .35s cubic-bezier(.2,.7,.2,1);
+  }
+  .testimonial-card:hover { border-color: var(--fg-dim); transform: translateY(-3px); }
+  .testimonial-card .mark {
+    font-family: var(--f-display);
+    font-size: 48px;
+    line-height: 0.6;
+    color: var(--accent-ink);
+    opacity: 0.55;
+    margin-bottom: -8px;
+    display: block;
+  }
+  .testimonial-card .quote {
+    font-family: var(--f-sans);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--fg);
+    flex: 1;
+    text-wrap: pretty;
+  }
+  .testimonial-card .quote em { color: var(--fg-muted); font-style: italic; }
+  .testimonial-card .person {
+    display: flex; align-items: center; gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+  .testimonial-card .avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--f-display); font-size: 14px; font-weight: 500;
+    color: var(--fg);
+    background: var(--bg-3);
+    border: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+  .testimonial-card .avatar[data-tone="a"] { background: linear-gradient(140deg, rgba(140,122,230,0.22), rgba(140,122,230,0.06)); border-color: rgba(140,122,230,0.32); color: #B5A8F0; }
+  .testimonial-card .avatar[data-tone="b"] { background: linear-gradient(140deg, rgba(120,165,215,0.22), rgba(120,165,215,0.06)); border-color: rgba(120,165,215,0.32); color: #B0C4DE; }
+  .testimonial-card .avatar[data-tone="c"] { background: linear-gradient(140deg, rgba(214,158,123,0.22), rgba(214,158,123,0.06)); border-color: rgba(214,158,123,0.32); color: #DCB58E; }
+  .testimonial-card .who { min-width: 0; }
+  .testimonial-card .who .name { font-family: var(--f-sans); font-size: 13.5px; font-weight: 500; color: var(--fg); line-height: 1.2; }
+  .testimonial-card .who .role { font-family: var(--f-sans); font-size: 11.5px; color: var(--fg-muted); margin-top: 2px; line-height: 1.3; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .exp-item, .tool-mini { transition: none; }
+    .exp-item:hover { padding-left: 0; }
+    .tool-mini:hover { transform: none; }
+  }
+  .about-block { display: flex; flex-direction: column; gap: clamp(20px, 2.4vw, 28px); }
+  .about-block-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .about-block-label {
+    font-family: var(--f-mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--fg-dim);
+  }
+  .about-block-title {
+    font-family: var(--f-display);
+    font-size: clamp(22px, 2.4vw, 30px);
+    font-weight: 320;
+    letter-spacing: -0.018em;
+    line-height: 1.15;
+    color: var(--fg);
+  }
+  .about-block-title em { font-style: italic; color: var(--fg-muted); font-weight: 300; }
+
+  /* Experience timeline */
+  .exp-list {
+    display: flex; flex-direction: column;
+  }
+  .exp-item {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    gap: clamp(16px, 2vw, 24px);
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+    transition: padding .35s cubic-bezier(.2,.7,.2,1), background .25s;
+  }
+  .exp-item:hover { padding-left: 12px; padding-right: 12px; background: linear-gradient(90deg, color-mix(in oklab, var(--fg) 4%, transparent), transparent 90%); }
+  .exp-item:last-child { border-bottom: none; }
+  .exp-logo {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--fg);
+    font-family: var(--f-display);
+    font-size: 18px; font-weight: 380;
+    letter-spacing: -0.02em;
+    flex-shrink: 0;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+  }
+  .exp-logo[data-co="ajnalens"]  { background: linear-gradient(140deg, rgba(140,122,230,0.18), rgba(140,122,230,0.06)); border-color: rgba(140,122,230,0.28); color: #B5A8F0; }
+  .exp-logo[data-co="slaylink"]  { background: linear-gradient(140deg, rgba(214,158,123,0.18), rgba(214,158,123,0.06)); border-color: rgba(214,158,123,0.28); color: #DCB58E; }
+  .exp-logo[data-co="subspace"]  { background: linear-gradient(140deg, rgba(120,165,215,0.18), rgba(120,165,215,0.06)); border-color: rgba(120,165,215,0.28); color: #B0C4DE; }
+  .exp-body { min-width: 0; }
+  .exp-role {
+    font-family: var(--f-sans); font-size: 15px; font-weight: 500;
+    color: var(--fg); line-height: 1.3;
+  }
+  .exp-where {
+    font-family: var(--f-sans); font-size: 13px;
+    color: var(--fg-muted); margin-top: 2px;
+  }
+  .exp-where .sep { color: var(--fg-dim); margin: 0 6px; }
+  .exp-when {
+    font-family: var(--f-mono); font-size: 11px;
+    color: var(--fg-dim); letter-spacing: 0.06em;
+    text-align: right; white-space: nowrap;
+  }
+  @media (max-width: 600px) {
+    .exp-item { grid-template-columns: 40px 1fr; grid-template-rows: auto auto; gap: 12px 14px; }
+    .exp-logo { width: 40px; height: 40px; font-size: 16px; }
+    .exp-body { grid-column: 2; }
+    .exp-when { grid-column: 1 / -1; text-align: left; padding-left: 54px; margin-top: -4px; }
+  }
+
+  /* Tools grid */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
+  }
+  .tool-card {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 10px;
+    padding: 22px 14px 18px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    transition: border-color .25s, background .25s, transform .35s cubic-bezier(.2,.7,.2,1);
+  }
+  .tool-card:hover { border-color: var(--fg-dim); background: var(--bg-3); transform: translateY(-2px); }
+  .tool-icon {
+    width: 36px; height: 36px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--fg);
+  }
+  .tool-icon svg { width: 100%; height: 100%; }
+  .tool-name {
+    font-family: var(--f-sans); font-size: 13px; font-weight: 500;
+    color: var(--fg); letter-spacing: -0.005em;
+  }
+
+  /* Skill chips */
+  .skill-chips {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .skill-chip {
+    font-family: var(--f-sans); font-size: 12.5px;
+    color: var(--fg-muted);
+    padding: 8px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--bg-2);
+    transition: color .2s, border-color .2s, background .2s;
+  }
+  .skill-chip:hover { color: var(--fg); border-color: var(--fg-dim); background: var(--bg-3); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .exp-item, .tool-card { transition: none; }
+    .exp-item:hover { padding-left: 0; padding-right: 0; background: none; }
+    .tool-card:hover { transform: none; }
+  }
 
   /* ---------- Approach ---------- */
   .approach-grid {
@@ -2415,14 +3035,13 @@
   <section class="section" id="work">
     <div class="wrap">
       <div class="section-head reveal">
-        <div class="section-label"><span class="num">01</span><span>Selected Work</span></div>
-        <h2 class="section-title">Four projects. <em>One idea:</em> bringing calm to things that feel like a lot.</h2>
+        <h2 class="section-title">Selected work.</h2>
       </div>
 
       <div class="work-list" id="workList">
 
         <!-- CASE 01, B Smart Glasses by Lenskart -->
-        <article class="case" data-idx="01">
+        <article class="case" data-idx="01" data-brand="lenskart">
           <div class="case-hero">
             <img src="assets/thumb-smartglasses.png" alt="B Smart Glasses by Lenskart" class="hero-img" style="opacity: 1" />
           </div>
@@ -2438,6 +3057,7 @@
 
             <div class="case-body">
               <h3 class="case-title">B Smart Glasses, an <em>app for a brand-new</em> kind of wearable.</h3>
+              <p class="case-subline">0–1 design for Lenskart's smart eyewear — research, hardware UX, and the companion app.</p>
               <p class="case-summary">
                 Led 0–1 design for Lenskart's smart eyewear, from research to product-ready output. I ran user research to surface real-world behaviour and unmet needs, then turned those insights into experience principles, flows, and interaction models across hardware and the companion app — partnering closely with product, engineering, and business to shape the launch's vision and strategy.
               </p>
@@ -2467,7 +3087,7 @@
         </article>
 
         <!-- CASE 02, Smartband for Women (NDA, password protected) -->
-        <article class="case" data-idx="02">
+        <article class="case" data-idx="02" data-brand="mai">
           <div class="case-hero">
             <img src="assets/mai/band-no-text.png" alt="Mai smartband for women" class="hero-img" />
           </div>
@@ -2482,6 +3102,7 @@
 
             <div class="case-body">
               <h3 class="case-title">Meet <em>Mai</em>. A smartband helping women <em>finally</em> put themselves first.</h3>
+              <p class="case-subline">A smartband and app built around how Indian women actually live, not how we imagine they should.</p>
               <p class="case-summary">
                 A smartband and companion app built around the reality of how Indian women live, not how we imagine they should. The real problem wasn't tracking, it was behaviour.
               </p>
@@ -2513,7 +3134,7 @@
         </article>
 
         <!-- CASE 03, AjnaLens Design System -->
-        <article class="case" data-idx="03">
+        <article class="case" data-idx="03" data-brand="designsystem">
           <div class="case-hero">
             <img src="assets/thumb-designsystem.png" alt="AjnaLens Design System" class="hero-img" />
           </div>
@@ -2528,6 +3149,7 @@
 
             <div class="case-body">
               <h3 class="case-title">A design system that <em>kept the team</em> on the same page.</h3>
+              <p class="case-subline">Tokens, components and theming for AjnaLens — less friction, more shipping.</p>
               <p class="case-summary">
                 As the product scaled, inconsistencies across screens started creating friction in both design and development. I worked on building a structured design system to bring clarity, consistency, and efficiency to the overall experience.
               </p>
@@ -2559,7 +3181,7 @@
         </article>
 
         <!-- CASE 04, Babbel Redesign -->
-        <article class="case" data-idx="04">
+        <article class="case" data-idx="04" data-brand="babbel">
           <div class="case-hero">
             <img src="assets/thumb-babbel.png" alt="Babbel Redesign" class="hero-img" />
           </div>
@@ -2574,6 +3196,7 @@
 
             <div class="case-body">
               <h3 class="case-title">Babbel, redesigned to feel <em>clear, not confusing.</em></h3>
+              <p class="case-subline">Rebuilt key flows for clarity, motivation, and a learning experience that actually sticks.</p>
               <p class="case-summary">
                 While Babbel offers strong learning content, the experience felt unintuitive and hard to navigate. I explored how clarity, feedback, and motivation influence learning, and redesigned key parts of the product to make it easier to use and more engaging over time.
               </p>
@@ -2612,8 +3235,7 @@
   <section class="section" id="about">
     <div class="wrap">
       <div class="section-head reveal">
-        <div class="section-label"><span class="num">02</span><span>About</span></div>
-        <h2 class="section-title">How I <em>actually</em> work.</h2>
+        <h2 class="section-title">About.</h2>
       </div>
 
       <div class="about-grid">
@@ -2628,6 +3250,169 @@
           <p>Over time, I've learned that good design is more about <em>taking things away than adding them</em>. I enjoy building experiences that feel calm and easy to use.</p>
         </div>
       </div>
+
+      <!-- Bento grid: experience (left, tall) | skills (right) | tools (wide below) -->
+      <div class="about-bento">
+
+        <article class="bento-card reveal" style="grid-row: span 2;">
+          <div class="bento-head">
+            <h3>Where I've <em>worked</em></h3>
+            <span class="label">Experience</span>
+          </div>
+          <div class="exp-list">
+            <div class="exp-item">
+              <span class="exp-logo has-logo"><img src="assets/logos/ajnalens.png" alt="AjnaLens" loading="lazy"/></span>
+              <div class="exp-body">
+                <div class="exp-role">Senior Product Designer</div>
+                <div class="exp-where">AjnaLens<span class="sep">·</span>Thane, IN</div>
+                <div class="exp-blurb">Founding designer on B Smart Glasses — hardware UX, companion app, end-to-end.<br/>Ran usability tests, simplified flows, and lifted task success to 70%.</div>
+              </div>
+              <div class="exp-when">Apr 2025 — Now</div>
+            </div>
+            <div class="exp-item">
+              <span class="exp-logo has-logo"><img src="assets/logos/ajnalens.png" alt="AjnaLens" loading="lazy"/></span>
+              <div class="exp-body">
+                <div class="exp-role">UX / UI Designer · Founding</div>
+                <div class="exp-where">AjnaLens<span class="sep">·</span>Thane, IN</div>
+                <div class="exp-blurb">Designed AjnaVidya 0→1 and built the design system that sped up workflows by 40%.<br/>Partnered with PMs and engineers to ship features rooted in user feedback.</div>
+              </div>
+              <div class="exp-when">Feb 2023 — Apr 2025</div>
+            </div>
+            <div class="exp-item">
+              <span class="exp-logo has-logo"><img src="assets/logos/slaylink.png" alt="Slaylink" loading="lazy"/></span>
+              <div class="exp-body">
+                <div class="exp-role">UX / UI Designer · Founding</div>
+                <div class="exp-where">Slaylink<span class="sep">·</span>Remote</div>
+                <div class="exp-blurb">Led the website design and contributed to product feature ideation early on.<br/>Built high-fidelity wireframes and prototypes for fast, fluid handoff.</div>
+              </div>
+              <div class="exp-when">Sep 2022 — Feb 2023</div>
+            </div>
+            <div class="exp-item">
+              <span class="exp-logo has-logo"><img src="assets/logos/subspace.png" alt="Subspace" loading="lazy"/></span>
+              <div class="exp-body">
+                <div class="exp-role">UX / UI Designer · Founding</div>
+                <div class="exp-where">Subspace<span class="sep">·</span>Remote</div>
+                <div class="exp-blurb">Built high-fidelity Figma prototypes for investor-facing SaaS tools — clarity for complex data interactions.<br/>Designed wireframes, interactive prototypes and polished UI for new features, plus close dev handoff.</div>
+              </div>
+              <div class="exp-when">Aug 2022 — Nov 2022</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="bento-card reveal delay-1">
+          <div class="bento-head">
+            <h3>What I <em>do</em></h3>
+            <span class="label">Skills</span>
+          </div>
+          <div class="skill-chips">
+            <span class="skill-chip">Product Design</span>
+            <span class="skill-chip">User Flows</span>
+            <span class="skill-chip">Wireframing</span>
+            <span class="skill-chip">Prototyping</span>
+            <span class="skill-chip">Usability Testing</span>
+            <span class="skill-chip">User Research</span>
+            <span class="skill-chip">Iteration</span>
+            <span class="skill-chip">Design Systems</span>
+            <span class="skill-chip">Responsive Design</span>
+            <span class="skill-chip">Interaction Design</span>
+            <span class="skill-chip">0 → 1 Products</span>
+            <span class="skill-chip">Cross-functional Collab</span>
+          </div>
+        </article>
+
+        <article class="bento-card reveal delay-2">
+          <div class="bento-head">
+            <h3>Tools I <em>reach for</em></h3>
+            <span class="label">Stack</span>
+          </div>
+          <div class="tools-mini">
+            <div class="tool-mini" title="Figma">
+              <span class="icon has-logo"><img src="assets/logos/figma.png" alt="" loading="lazy"/></span>
+              <span class="name">Figma</span>
+            </div>
+            <div class="tool-mini" title="Framer">
+              <span class="icon has-logo"><img src="assets/logos/framer.png" alt="" loading="lazy"/></span>
+              <span class="name">Framer</span>
+            </div>
+            <div class="tool-mini" title="Adobe Illustrator">
+              <span class="icon has-logo"><img src="assets/logos/illustrator.png" alt="" loading="lazy"/></span>
+              <span class="name">Illustrator</span>
+            </div>
+            <div class="tool-mini" title="Notion">
+              <span class="icon has-logo"><img src="https://www.google.com/s2/favicons?sz=64&domain=notion.so" alt="" loading="lazy"/></span>
+              <span class="name">Notion</span>
+            </div>
+            <div class="tool-mini" title="Claude">
+              <span class="icon has-logo"><img src="https://www.google.com/s2/favicons?sz=64&domain=claude.ai" alt="" loading="lazy"/></span>
+              <span class="name">Claude</span>
+            </div>
+            <div class="tool-mini" title="ChatGPT">
+              <span class="icon has-logo"><img src="https://www.google.com/s2/favicons?sz=64&domain=chatgpt.com" alt="" loading="lazy"/></span>
+              <span class="name">ChatGPT</span>
+            </div>
+            <div class="tool-mini" title="HTML">
+              <span class="icon has-logo"><img src="assets/logos/html.png" alt="" loading="lazy"/></span>
+              <span class="name">HTML</span>
+            </div>
+            <div class="tool-mini" title="CSS">
+              <span class="icon has-logo"><img src="assets/logos/css.png" alt="" loading="lazy"/></span>
+              <span class="name">CSS</span>
+            </div>
+            <div class="tool-mini" title="JavaScript">
+              <span class="icon has-logo"><img src="assets/logos/js.png" alt="" loading="lazy"/></span>
+              <span class="name">JavaScript</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== TESTIMONIALS =================== -->
+  <section class="section" id="testimonials">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2 class="section-title">Testimonials.</h2>
+      </div>
+
+      <div class="testimonials-grid">
+        <article class="testimonial-card reveal">
+          <span class="mark" aria-hidden="true">“</span>
+          <p class="quote">I have the pleasure of working closely with Deepali Pathe on the 'B by Lenskart' smart glasses project. Designing for wearable AR/smart tech requires a deep understanding of unique user experiences, and Deepali Pathe excels at this. She bridges the gap between complex hardware functionality and clean, intuitive UI beautifully. As an Android Developer, I highly value her collaborative approach—she always welcomes engineering feedback regarding platform constraints and ensures seamless design handoffs. She is a phenomenal Senior Product Designer who truly understands how to design for the future of tech.</p>
+          <div class="person">
+            <span class="avatar" data-tone="a" aria-hidden="true">AR</span>
+            <div class="who">
+              <div class="name">Alpesh Raval</div>
+              <div class="role">Tech Lead, Android · AjnaLens</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="testimonial-card reveal delay-1">
+          <span class="mark" aria-hidden="true">“</span>
+          <p class="quote">I had the pleasure of working with an exceptional Product Designer who consistently delivered thoughtful, user-centric solutions. She has an impressive ability to translate complex requirements into intuitive and visually appealing designs.<br/><br/>She possesses a strong understanding of user experience, design systems, and modern design tools, and always brings creativity along with a problem-solving mindset. Beyond her technical skills, she is highly collaborative, open to feedback, and committed to delivering high-quality work on time.</p>
+          <div class="person">
+            <span class="avatar" data-tone="b" aria-hidden="true">JP</span>
+            <div class="who">
+              <div class="name">Jay Patel</div>
+              <div class="role">SDE · Android &amp; React Native</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="testimonial-card reveal delay-2">
+          <span class="mark" aria-hidden="true">“</span>
+          <p class="quote">Deepali is the kind of UI/UX designer every team hopes to have — creative, thoughtful, and always full of fresh ideas. She has an incredible way of looking at problems from the user’s perspective and turning complex ideas into experiences that just make sense.<br/><br/>What makes her even more fun to work with is that she doesn’t just “design pretty screens” — she actually understands development too. So instead of developers crying over impossible designs at 2 AM, she creates experiences that are both beautiful and practical to build.</p>
+          <div class="person">
+            <span class="avatar" data-tone="c" aria-hidden="true">SS</span>
+            <div class="who">
+              <div class="name">Shubhendam Shrotriya</div>
+              <div class="role">AI Developer · AjnaLens</div>
+            </div>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -2635,8 +3420,7 @@
   <section class="section" id="skills">
     <div class="wrap">
       <div class="section-head reveal">
-        <div class="section-label"><span class="num">03</span><span>Capabilities</span></div>
-        <h2 class="section-title">What I bring to a team.</h2>
+        <h2 class="section-title">Capabilities.</h2>
       </div>
 
       <div class="skills-grid">
@@ -2679,8 +3463,6 @@
   <!-- =================== CONTACT =================== -->
   <section class="contact" id="contact">
     <div class="wrap">
-      <div class="section-label reveal" style="margin-bottom:40px;"><span class="num">04</span><span>Contact</span></div>
-
       <h2 class="contact-headline reveal delay-1">
         You made it here. If something you're <em>building</em> feels like too much, <span class="accent">I'd love to help simplify it.</span>
       </h2>
@@ -2755,9 +3537,13 @@
   <div class="group">
     <label>Case study layout</label>
     <div class="tweak-btns">
-      <button class="tweak-btn active" data-layout="fullbleed">
+      <button class="tweak-btn active" data-layout="cards">
+        Card grid
+        <span class="desc">Default · 2×2 cards with brand-tinted band</span>
+      </button>
+      <button class="tweak-btn" data-layout="fullbleed">
         Full-bleed hero
-        <span class="desc">Default · one big screenshot per case</span>
+        <span class="desc">One big screenshot per case</span>
       </button>
       <button class="tweak-btn" data-layout="split">
         Split · vertical
@@ -2774,7 +3560,7 @@
 <!-- Editmode config -->
 <script>
   const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-    "caseLayout": "fullbleed"
+    "caseLayout": "cards"
   }/*EDITMODE-END*/;
 </script>
 
@@ -2783,10 +3569,10 @@
   const workList = document.getElementById('workList');
 
   // Apply initial layout
-  applyLayout(TWEAK_DEFAULTS.caseLayout || 'fullbleed');
+  applyLayout(TWEAK_DEFAULTS.caseLayout || 'cards');
 
   function applyLayout(layout) {
-    workList.classList.remove('layout-fullbleed', 'layout-split', 'layout-index');
+    workList.classList.remove('layout-fullbleed', 'layout-split', 'layout-index', 'layout-cards');
     workList.classList.add('layout-' + layout);
     // Update tweak buttons
     document.querySelectorAll('.tweak-btn[data-layout]').forEach(b => {
@@ -3352,7 +4138,7 @@
   <article class="case-section-content" data-case="designsystem">
     <div class="case-page">
       <div class="case-eyebrow">
-        <span class="num">02</span><span class="dot">·</span><span>AjnaLens Design System</span>
+        <span class="num">03</span><span class="dot">·</span><span>AjnaLens Design System</span>
       </div>
       <h1 class="case-page-title">Design once. <em>Bring consistency</em> <span class="accent">everywhere.</span></h1>
       <p class="case-page-lede">
@@ -3504,7 +4290,7 @@
     <div class="case-page">
       <!-- Hero -->
       <div class="case-eyebrow">
-        <span class="num">03</span><span class="dot">·</span><span>UI / UX Case Study</span>
+        <span class="num">04</span><span class="dot">·</span><span>UI / UX Case Study</span>
       </div>
       <h1 class="case-page-title">When <span class="accent">10 million learners</span> feel <em>lost</em>, the app is the problem.</h1>
       <p class="case-page-lede">
@@ -3711,5 +4497,272 @@
   </article>
 </div>
 
-</body>
+<!-- =================== APPLE-STYLE INTERACTIVE LAYER =================== -->
+<style>
+  /* Scroll progress bar */
+  .scroll-progress {
+    position: fixed; top: 0; left: 0;
+    height: 2px; width: 100%;
+    background: transparent;
+    z-index: 60;
+    pointer-events: none;
+  }
+  .scroll-progress::after {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    height: 100%; width: 100%;
+    background: linear-gradient(90deg, transparent, var(--accent-ink) 35%, var(--accent-ink) 65%, transparent);
+    transform-origin: 0 50%;
+    transform: scaleX(var(--scroll, 0));
+    transition: transform 80ms linear;
+    will-change: transform;
+    opacity: 0.7;
+  }
+
+  /* Cursor spotlight in hero */
+  .cursor-glow {
+    position: fixed;
+    top: 0; left: 0;
+    width: 520px; height: 520px;
+    pointer-events: none;
+    z-index: 2;
+    border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in oklab, var(--accent-ink) 22%, transparent), transparent 65%);
+    mix-blend-mode: screen;
+    transform: translate(-50%, -50%) translate3d(var(--mx, -1000px), var(--my, -1000px), 0);
+    opacity: 0;
+    transition: opacity .6s cubic-bezier(.22,1,.36,1);
+    will-change: transform, opacity;
+    filter: blur(40px);
+  }
+  .cursor-glow.active { opacity: 1; }
+  html[data-theme="light"] .cursor-glow {
+    background: radial-gradient(circle, rgba(255,184,156,0.45), transparent 65%);
+    mix-blend-mode: multiply;
+    opacity: 0;
+  }
+  html[data-theme="light"] .cursor-glow.active { opacity: 0.7; }
+  @media (max-width: 900px) { .cursor-glow { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .cursor-glow { display: none; } }
+
+  /* 3D tilt prep on work cards & testimonials */
+  .layout-cards .case,
+  .testimonial-card,
+  .bento-card,
+  .tool-mini {
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+  .layout-cards .case-hero {
+    transform: translateZ(20px);
+  }
+  .layout-cards .case-body {
+    transform: translateZ(0);
+  }
+
+  /* Hero portrait parallax + breath */
+  .hero-portrait-frame img {
+    will-change: transform, filter;
+  }
+  .hero-portrait {
+    animation: portraitBreath 8s ease-in-out infinite;
+    will-change: transform;
+  }
+  @keyframes portraitBreath {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50%      { transform: translateY(-6px) scale(1.012); }
+  }
+  @media (prefers-reduced-motion: reduce) { .hero-portrait { animation: none; } }
+
+  /* Magnetic button base — JS positions, CSS smoothes */
+  .magnetic {
+    transition: transform .6s cubic-bezier(.22,1,.36,1);
+    will-change: transform;
+  }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  /* Hero word stagger reveal */
+  .hero-headline .word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(28px) rotate(2deg);
+    filter: blur(8px);
+    transition:
+      opacity 1100ms cubic-bezier(.22,1,.36,1),
+      transform 1100ms cubic-bezier(.22,1,.36,1),
+      filter 1100ms cubic-bezier(.22,1,.36,1);
+  }
+  .hero-headline.in .word {
+    opacity: 1;
+    transform: translateY(0) rotate(0);
+    filter: blur(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-headline .word { opacity: 1; transform: none; filter: none; transition: none; }
+  }
+
+  /* Floating section labels (subtle scroll-y micro-shift) */
+  .section-title, .case-title, .contact-headline {
+    will-change: transform;
+  }
+</style>
+
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+<script>
+(function () {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---------- Scroll progress bar ----------
+  const progress = document.getElementById('scrollProgress');
+  let rafProgress = 0;
+  function updateProgress() {
+    const h = document.documentElement;
+    const max = h.scrollHeight - h.clientHeight;
+    const pct = max > 0 ? Math.min(1, Math.max(0, h.scrollTop / max)) : 0;
+    progress.style.setProperty('--scroll', pct);
+    rafProgress = 0;
+  }
+  window.addEventListener('scroll', () => {
+    if (!rafProgress) rafProgress = requestAnimationFrame(updateProgress);
+  }, { passive: true });
+  updateProgress();
+
+  // ---------- Cursor spotlight (hero only) ----------
+  const glow = document.getElementById('cursorGlow');
+  const hero = document.querySelector('.hero');
+  if (glow && hero && !reduce) {
+    let tx = -1000, ty = -1000, cx = -1000, cy = -1000;
+    let rafGlow = 0;
+    function loopGlow() {
+      cx += (tx - cx) * 0.12;
+      cy += (ty - cy) * 0.12;
+      glow.style.setProperty('--mx', cx + 'px');
+      glow.style.setProperty('--my', cy + 'px');
+      rafGlow = requestAnimationFrame(loopGlow);
+    }
+    hero.addEventListener('mousemove', (e) => {
+      tx = e.clientX;
+      ty = e.clientY;
+      if (!glow.classList.contains('active')) glow.classList.add('active');
+      if (!rafGlow) rafGlow = requestAnimationFrame(loopGlow);
+    });
+    hero.addEventListener('mouseleave', () => {
+      glow.classList.remove('active');
+    });
+  }
+
+  // ---------- 3D tilt on cards (cursor-following parallax) ----------
+  function attachTilt(selector, opts = {}) {
+    const max = opts.max ?? 6;          // degrees
+    const lift = opts.lift ?? 0;
+    document.querySelectorAll(selector).forEach((el) => {
+      let raf = 0, tx = 0, ty = 0, cx = 0, cy = 0;
+      function loop() {
+        cx += (tx - cx) * 0.16;
+        cy += (ty - cy) * 0.16;
+        el.style.transform = `perspective(900px) rotateX(${cy}deg) rotateY(${cx}deg) translateY(${lift}px)`;
+        if (Math.abs(tx - cx) > 0.01 || Math.abs(ty - cy) > 0.01) {
+          raf = requestAnimationFrame(loop);
+        } else { raf = 0; }
+      }
+      el.addEventListener('mousemove', (e) => {
+        const r = el.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width  - 0.5;
+        const py = (e.clientY - r.top)  / r.height - 0.5;
+        tx = px *  max * 2;
+        ty = -py * max * 2;
+        if (!raf) raf = requestAnimationFrame(loop);
+      });
+      el.addEventListener('mouseleave', () => {
+        tx = 0; ty = 0;
+        if (!raf) raf = requestAnimationFrame(loop);
+      });
+    });
+  }
+  if (!reduce) {
+    attachTilt('.layout-cards .case', { max: 5,  lift: -6 });
+    attachTilt('.testimonial-card',    { max: 4 });
+    attachTilt('.tool-mini',           { max: 10 });
+  }
+
+  // ---------- Magnetic effect on primary CTAs ----------
+  function attachMagnetic(selector, strength = 0.35) {
+    document.querySelectorAll(selector).forEach((el) => {
+      el.classList.add('magnetic');
+      el.addEventListener('mousemove', (e) => {
+        const r = el.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width  / 2)) * strength;
+        const dy = (e.clientY - (r.top  + r.height / 2)) * strength;
+        el.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
+      });
+      el.addEventListener('mouseleave', () => {
+        el.style.transform = '';
+      });
+    });
+  }
+  if (!reduce) {
+    attachMagnetic('.btn-primary, .nav-cta, .contact-email', 0.22);
+  }
+
+  // ---------- Hero headline word stagger ----------
+  const headlines = document.querySelectorAll('h1.hero-headline');
+  headlines.forEach((h) => {
+    if (h.dataset.wrapped === '1') return;
+    const html = h.innerHTML;
+    // Wrap each word in a span, preserving inline em/.accent spans
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = html;
+    function wrapNode(node, out) {
+      if (node.nodeType === 3) {
+        const parts = node.textContent.split(/(\s+)/);
+        parts.forEach((p) => {
+          if (/^\s+$/.test(p)) {
+            out.appendChild(document.createTextNode(p));
+          } else if (p) {
+            const w = document.createElement('span');
+            w.className = 'word';
+            w.textContent = p;
+            out.appendChild(w);
+          }
+        });
+      } else if (node.nodeType === 1) {
+        const clone = node.cloneNode(false);
+        // For inline children we still want their words to stagger
+        if (node.childNodes.length) {
+          node.childNodes.forEach((c) => wrapNode(c, clone));
+        }
+        out.appendChild(clone);
+      }
+    }
+    const out = document.createElement('span');
+    wrapper.childNodes.forEach((c) => wrapNode(c, out));
+    h.innerHTML = '';
+    h.appendChild(out);
+    h.dataset.wrapped = '1';
+
+    // Stagger delay
+    const words = h.querySelectorAll('.word');
+    words.forEach((w, i) => {
+      w.style.transitionDelay = (i * 60) + 'ms';
+    });
+    requestAnimationFrame(() => h.classList.add('in'));
+  });
+
+  // ---------- Lift section titles on scroll-in (intersection-driven) ----------
+  const liftIo = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add('lifted');
+        liftIo.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.section-title, .contact-headline').forEach((el) => liftIo.observe(el));
+})();
+</script>
 </html>

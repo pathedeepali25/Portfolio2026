@@ -103,6 +103,43 @@
     letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-dim);
   }
   .nav-meta .accent { color: var(--accent-ink); }
+
+  /* Previous-case link in nav center */
+  .nav-prev-case {
+    display: inline-flex; flex-direction: column;
+    align-items: center; gap: 2px;
+    text-align: center;
+    padding: 6px 14px;
+    border-radius: 10px;
+    color: var(--fg-muted);
+    text-decoration: none;
+    transition: color .3s, background-color .35s, transform .35s cubic-bezier(.22,1,.36,1);
+  }
+  .nav-prev-case:hover { color: var(--fg); background: var(--bg-2); transform: translateY(-1px); }
+  .nav-prev-case .k {
+    font-family: var(--f-sans); font-size: 9.5px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--fg-dim); line-height: 1;
+  }
+  .nav-prev-case .v {
+    font-family: var(--f-sans); font-size: 12.5px;
+    font-weight: 500; letter-spacing: -0.005em;
+    line-height: 1.2;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .nav-prev-case .arr {
+    font-family: var(--f-display); font-size: 14px;
+    transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+    display: inline-block;
+  }
+  .nav-prev-case:hover .arr { transform: translateX(-3px); }
+  @media (max-width: 760px) {
+    .nav-prev-case .k { display: none; }
+    .nav-prev-case { padding: 6px 10px; flex-direction: row; gap: 6px; }
+  }
+  @media (max-width: 520px) {
+    .nav-prev-case { display: none; }
+  }
   @media (max-width: 600px) { .nav-back span:not(.arr) { display: none; } .nav-back { padding: 8px 12px 8px 10px; } }
 
   /* ===== Page layout ===== */
@@ -635,7 +672,7 @@
     <a href="index.html" class="nav-back">
       <span class="arr">←</span><span>Back to portfolio</span>
     </a>
-    <div class="nav-meta"><span class="accent">02</span> · Ajna Design System</div>
+    <div class="nav-meta"><span class="accent">03</span> · Ajna Design System</div>
   </div>
 </nav>
 

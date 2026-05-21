@@ -75,10 +75,37 @@
   .nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 40;
     padding: 14px 0;
-    background: color-mix(in oklab, var(--bg) 80%, transparent);
-    backdrop-filter: blur(14px) saturate(140%);
-    -webkit-backdrop-filter: blur(14px) saturate(140%);
-    border-bottom: 1px solid color-mix(in oklab, var(--line) 60%, transparent);
+    background: color-mix(in oklab, var(--bg) 60%, transparent);
+    backdrop-filter: blur(8px) saturate(120%);
+    -webkit-backdrop-filter: blur(8px) saturate(120%);
+    border-bottom: 1px solid color-mix(in oklab, var(--line) 0%, transparent);
+    transform: translateY(-100%);
+    opacity: 0;
+    animation: navDrop 900ms cubic-bezier(.22,1,.36,1) 120ms forwards;
+    transition:
+      padding 500ms cubic-bezier(.22,1,.36,1),
+      background-color 500ms cubic-bezier(.22,1,.36,1),
+      border-color 500ms cubic-bezier(.22,1,.36,1),
+      backdrop-filter 500ms cubic-bezier(.22,1,.36,1),
+      -webkit-backdrop-filter 500ms cubic-bezier(.22,1,.36,1),
+      box-shadow 500ms cubic-bezier(.22,1,.36,1);
+    will-change: transform, padding, background-color;
+  }
+  .nav.scrolled {
+    padding: 10px 0;
+    background: color-mix(in oklab, var(--bg) 88%, transparent);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    border-bottom-color: color-mix(in oklab, var(--line) 70%, transparent);
+    box-shadow: 0 10px 30px -20px rgba(0,0,0,0.55);
+  }
+  @keyframes navDrop {
+    0%   { transform: translateY(-100%); opacity: 0; }
+    60%  { opacity: 1; }
+    100% { transform: translateY(0);     opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nav { animation: none; transform: none; opacity: 1; transition: background-color 200ms ease, border-color 200ms ease; }
   }
   .nav-inner {
     display: flex; align-items: center; justify-content: space-between; gap: 16px;
@@ -89,20 +116,107 @@
     display: inline-flex; align-items: center; gap: 10px;
     font-family: var(--f-sans); font-size: 13px; font-weight: 500;
     color: var(--fg-muted);
-    padding: 8px 14px 8px 10px;
-    border-radius: 999px;
+    padding: 8px 16px 8px 12px;
     border: 1px solid var(--line);
-    background: transparent;
-    transition: color .25s, border-color .25s, gap .25s, background .25s;
+    border-radius: 999px;
+    transition:
+      color 350ms cubic-bezier(.22,1,.36,1),
+      border-color 350ms cubic-bezier(.22,1,.36,1),
+      gap 450ms cubic-bezier(.22,1,.36,1),
+      background-color 450ms cubic-bezier(.22,1,.36,1),
+      transform 450ms cubic-bezier(.22,1,.36,1),
+      box-shadow 450ms cubic-bezier(.22,1,.36,1),
+      opacity 600ms cubic-bezier(.22,1,.36,1) 280ms;
+    opacity: 0;
+    transform: translateX(-12px);
+    animation: navItemIn 700ms cubic-bezier(.22,1,.36,1) 320ms forwards;
   }
-  .nav-back:hover { color: var(--fg); border-color: var(--fg-dim); gap: 12px; background: var(--bg-2); }
-  .nav-back .arr { font-family: var(--f-display); font-size: 16px; transition: transform .3s cubic-bezier(.2,.7,.2,1); }
-  .nav-back:hover .arr { transform: translateX(-3px); }
+  .nav-back:hover {
+    color: var(--fg);
+    border-color: var(--fg-dim);
+    gap: 14px;
+    background: var(--bg-2);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px -10px rgba(0,0,0,0.45);
+  }
+  .nav-back .arr {
+    font-family: var(--f-display); font-size: 16px;
+    transition: transform 450ms cubic-bezier(.34,1.56,.64,1);
+    display: inline-block;
+  }
+  .nav-back:hover .arr { transform: translateX(-4px); }
   .nav-meta {
     font-family: var(--f-sans); font-size: 11px;
     letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-dim);
+    opacity: 0;
+    transform: translateX(12px);
+    animation: navItemIn 700ms cubic-bezier(.22,1,.36,1) 420ms forwards;
   }
-  .nav-meta .accent { color: var(--accent-ink); }
+  .nav-meta .accent {
+    color: var(--accent-ink);
+    transition: color 350ms cubic-bezier(.22,1,.36,1);
+  }
+
+  /* Previous-case link in nav center */
+  .nav-prev-case {
+    display: inline-flex; flex-direction: column;
+    align-items: center; gap: 2px;
+    text-align: center;
+    padding: 6px 14px;
+    border-radius: 10px;
+    color: var(--fg-muted);
+    text-decoration: none;
+    opacity: 0;
+    transform: translateY(-8px);
+    animation: navItemIn 700ms cubic-bezier(.22,1,.36,1) 380ms forwards;
+    transition:
+      color 350ms cubic-bezier(.22,1,.36,1),
+      background-color 450ms cubic-bezier(.22,1,.36,1),
+      transform 450ms cubic-bezier(.22,1,.36,1),
+      opacity 600ms cubic-bezier(.22,1,.36,1);
+  }
+  .nav-prev-case:hover { color: var(--fg); background: var(--bg-2); transform: translateY(-1px); }
+  .nav-prev-case .k {
+    font-family: var(--f-sans); font-size: 9.5px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--fg-dim);
+    line-height: 1;
+  }
+  .nav-prev-case .v {
+    font-family: var(--f-sans); font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    line-height: 1.2;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .nav-prev-case .arr {
+    font-family: var(--f-display); font-size: 14px;
+    transition: transform 450ms cubic-bezier(.34,1.56,.64,1);
+    display: inline-block;
+  }
+  .nav-prev-case:hover .arr { transform: translateX(-3px); }
+  .nav-prev-case  { --nav-in-x: 0; }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-prev-case { animation: none; opacity: 1; transform: none; }
+    .nav-prev-case:hover { transform: none; }
+  }
+  @media (max-width: 760px) {
+    .nav-prev-case .k { display: none; }
+    .nav-prev-case { padding: 6px 10px; flex-direction: row; gap: 6px; }
+  }
+  @media (max-width: 520px) {
+    .nav-prev-case { display: none; }
+  }
+  @keyframes navItemIn {
+    from { opacity: 0; transform: translateX(var(--nav-in-x, 0)); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  .nav-back  { --nav-in-x: -12px; }
+  .nav-meta  { --nav-in-x:  12px; }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-back, .nav-meta { animation: none; opacity: 1; transform: none; }
+    .nav-back:hover { transform: none; }
+  }
   @media (max-width: 600px) { .nav-back span:not(.arr) { display: none; } .nav-back { padding: 8px 12px 8px 10px; } }
 
   /* ===== Page layout ===== */
@@ -347,6 +461,59 @@
     .screen-row-tag { padding-top: 0; }
   }
 
+  /* ===== Wide image, gallery, screen block ===== */
+  .wide-img {
+    margin: 32px 0 12px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--bg-2);
+  }
+  .wide-img img { width: 100%; height: auto; display: block; }
+  .wide-img.flush { background: transparent; border-color: transparent; padding: 0; }
+  .wide-img.padded {
+    padding: clamp(20px, 3vw, 40px);
+    background: var(--bg-2);
+  }
+  .wide-img.padded.light-bg {
+    background: var(--bg-2);
+    border-color: var(--line);
+  }
+  html[data-theme="light"] .wide-img.padded.light-bg {
+    background: var(--bg-2);
+    border-color: var(--line);
+  }
+  .img-caption {
+    margin: 0 0 32px;
+    font-family: var(--f-sans); font-size: 12px;
+    color: var(--fg-dim); letter-spacing: 0.02em;
+    text-align: center;
+    line-height: 1.5;
+  }
+  .img-caption em { color: var(--accent-ink); font-style: italic; }
+
+  /* Two-up image grid (for foundations: color + type) */
+  .img-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin: 32px 0 12px;
+  }
+  @media (max-width: 700px) {
+    .img-grid-2 { grid-template-columns: 1fr; }
+  }
+  .img-grid-2 .wide-img { margin: 0; }
+
+  /* Screen block: groups a wide image with its narrative screen-row */
+  .screen-block {
+    margin-top: 32px;
+  }
+  .screen-block + .screen-block { margin-top: 56px; }
+  .screen-block .wide-img { margin: 0 0 12px; }
+  .screen-block .img-caption { margin-bottom: 16px; }
+  .screen-block .screen-row { margin-top: 0; }
+  .screen-rows.gap-loose { gap: 56px; }
+
   /* ===== Takeaways ===== */
   .takeaways {
     display: flex; flex-direction: column;
@@ -461,7 +628,7 @@
 </head>
 <body>
 
-<nav class="nav">
+<nav class="nav" id="nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-back">
       <span class="arr">←</span><span>Back to portfolio</span>
@@ -476,7 +643,7 @@
     <!-- Hero -->
     <div class="reveal">
       <div class="eyebrow">
-        <span class="num">03</span><span>·</span><span>UI / UX Case Study</span>
+        <span class="num">04</span><span>·</span><span>UI / UX Case Study</span>
       </div>
       <h1 class="page-title">When <span class="accent">10 million learners</span> feel <em>lost</em>, the app is the problem.</h1>
       <p class="page-lede">
@@ -513,6 +680,11 @@
         <div class="stat"><div class="k">Oral proficiency</div><div class="v">60%</div><div class="sub">Users who improved speaking</div></div>
         <div class="stat"><div class="k">Languages</div><div class="v">14</div><div class="sub">Offered on platform</div></div>
       </div>
+
+      <div class="wide-img padded light-bg" style="margin-top: 56px;">
+        <img src="assets/babbel/old-screens.png" alt="Six screens from the existing Babbel app showing inconsistent navigation, visual hierarchy, and missing review surfaces" />
+      </div>
+      <p class="img-caption">The existing app, captured across six screens. Effective content, <em>but the experience didn't carry it.</em></p>
     </section>
 
     <!-- 02 Research -->
@@ -529,6 +701,16 @@
         <li><span class="n">04</span><span>Desk research on language-learning outcomes</span></li>
         <li><span class="n">05</span><span>Information architecture mapping</span></li>
       </ol>
+
+      <div class="wide-img padded light-bg" style="margin-top: 56px;">
+        <img src="assets/babbel/sitemap.png" alt="Information architecture for the redesigned Babbel: splash to onboarding to home, with six branches covering streak, review, explore, connect, and profile" />
+      </div>
+      <p class="img-caption">Rebuilt the information architecture from the ground up. <em>Six clear paths from home,</em> not six dead ends.</p>
+
+      <div class="wide-img padded light-bg">
+        <img src="assets/babbel/wireframes.png" alt="Hand-drawn wireframe sketches for the home, explore, connect, individuals, groups, and profile pages" />
+      </div>
+      <p class="img-caption">Pencil-first. Sketching every primary screen <em>before opening Figma</em> kept the ideas loose and the decisions cheap.</p>
     </section>
 
     <!-- 03 Pain Points -->
@@ -597,44 +779,83 @@
       <div class="prose">
         <p>Every screen was rebuilt from first principles: What does the user need <em>right now</em>? What's getting in their way? What would make them come back tomorrow?</p>
       </div>
+
+      <div class="wide-img padded light-bg" style="margin-top: 40px;">
+        <img src="assets/babbel/style-guide.png" alt="Babbel redesign style guide: orange and emerald primary colors, neutral grayscale, and the Roboto typescale from 24px headlines to 10px labels" />
+      </div>
+      <p class="img-caption">A tightened visual system. <em>Orange to act, emerald to confirm,</em> Roboto across a calm eight-step scale.</p>
     </section>
 
     <!-- Screens -->
     <section class="section reveal">
-      <div class="screen-rows">
-        <div class="screen-row">
-          <div class="screen-row-tag">Home Screen</div>
-          <div class="screen-row-body">
-            <h3>The Zeigarnik Hook</h3>
-            <p>A progress bar that whispers "you're almost there." Streak counters that turn learning into a daily ritual. Psychology meets pixels.</p>
-            <div class="principle">↳ Zeigarnik effect, people remember incomplete tasks 90% better</div>
+      <div class="screen-rows gap-loose">
+
+        <div class="screen-block">
+          <div class="wide-img padded light-bg">
+            <img src="assets/babbel/home-compare.png" alt="Home screen: old single-list layout versus the new layout with a resume-learning CTA, four review modes, and an animated streak ring" />
+          </div>
+          <p class="img-caption">Home, before and after. A clear next step, four review modes, and a streak that actually shows up.</p>
+          <div class="screen-row">
+            <div class="screen-row-tag">Home Screen</div>
+            <div class="screen-row-body">
+              <h3>The Zeigarnik Hook</h3>
+              <p>A progress bar that whispers "you're almost there." Streak counters that turn learning into a daily ritual. Psychology meets pixels.</p>
+              <div class="principle">↳ Zeigarnik effect, people remember incomplete tasks 90% better</div>
+            </div>
           </div>
         </div>
-        <div class="screen-row">
-          <div class="screen-row-tag">Explore Screen</div>
-          <div class="screen-row-body">
-            <h3>Content you actually want</h3>
-            <p>Podcasts, articles, games, categorized by what you love, not what we think you should learn. Your interests become your curriculum.</p>
-            <div class="principle">↳ Intrinsic motivation drives 3× more engagement than extrinsic</div>
+
+        <div class="screen-block">
+          <div class="wide-img padded light-bg">
+            <img src="assets/babbel/explore-compare.png" alt="Explore screen: old vertical content list versus the new filterable feed of videos, podcasts, and books grouped by category" />
+          </div>
+          <p class="img-caption">Explore, restructured around what users actually browse for. Filter, save, return.</p>
+          <div class="screen-row">
+            <div class="screen-row-tag">Explore Screen</div>
+            <div class="screen-row-body">
+              <h3>Content you actually want</h3>
+              <p>Podcasts, articles, games, categorized by what you love, not what we think you should learn. Your interests become your curriculum.</p>
+              <div class="principle">↳ Intrinsic motivation drives 3× more engagement than extrinsic</div>
+            </div>
           </div>
         </div>
-        <div class="screen-row">
-          <div class="screen-row-tag">Connect Screen</div>
-          <div class="screen-row-body">
-            <h3>The missing piece</h3>
-            <p>Chat with native speakers 1-on-1 or in groups. Because fluency doesn't happen in isolation, it happens in conversation.</p>
-            <div class="principle">↳ Addressing the #1 unmet need from user research</div>
+
+        <div class="screen-block">
+          <div class="wide-img padded light-bg">
+            <img src="assets/babbel/connect-screens.png" alt="Connect screen across three tabs: 1:1 individuals, group conversations, and bookable classes with native speakers" />
+          </div>
+          <p class="img-caption">A new Connect tab. <em>1:1, groups, or booked classes</em> — three ways to actually speak the language.</p>
+          <div class="screen-row">
+            <div class="screen-row-tag">Connect Screen</div>
+            <div class="screen-row-body">
+              <h3>The missing piece</h3>
+              <p>Chat with native speakers 1-on-1 or in groups. Because fluency doesn't happen in isolation, it happens in conversation.</p>
+              <div class="principle">↳ Addressing the #1 unmet need from user research</div>
+            </div>
           </div>
         </div>
-        <div class="screen-row">
-          <div class="screen-row-tag">Profile Screen</div>
-          <div class="screen-row-body">
-            <h3>Your learning DNA</h3>
-            <p>Every saved word, every bookmarked lesson, every milestone, organized beautifully. Your journey, at a glance.</p>
-            <div class="principle">↳ Organized content retrieval reduces cognitive load by 40%</div>
+
+        <div class="screen-block">
+          <div class="wide-img padded light-bg">
+            <img src="assets/babbel/profile-annotated.png" alt="Profile screen showing the user's avatar, achievement badges, and a 'My Library' section with saved words, videos, and podcasts" />
+          </div>
+          <p class="img-caption">Profile turned into a personal library — every saved word, badge, and podcast in one place.</p>
+          <div class="screen-row">
+            <div class="screen-row-tag">Profile Screen</div>
+            <div class="screen-row-body">
+              <h3>Your learning DNA</h3>
+              <p>Every saved word, every bookmarked lesson, every milestone, organized beautifully. Your journey, at a glance.</p>
+              <div class="principle">↳ Organized content retrieval reduces cognitive load by 40%</div>
+            </div>
           </div>
         </div>
+
       </div>
+
+      <div class="wide-img padded light-bg" style="margin-top: 72px;">
+        <img src="assets/babbel/new-screens.png" alt="Six redesigned learning screens: vocabulary card, congratulations celebration, listening exercise, vocab recall, and two character-recognition prompts" />
+      </div>
+      <p class="img-caption">The redesigned learning flow, end to end. <em>Clear cues, playful celebration,</em> and one consistent visual language.</p>
     </section>
 
     <!-- 05 Takeaways -->
@@ -657,21 +878,15 @@
       </div>
     </section>
 
-    <!-- Footer CTA -->
-    <div class="footer-cta reveal">
-      <div class="t">The <em>original long-form write-up</em> lives on Medium.</div>
-      <a href="https://medium.com/design-bootcamp/babbel-redesign-case-study-ba9a2b9e3126" target="_blank" rel="noopener" class="btn btn-primary">Read on Medium <span class="arr">↗</span></a>
-    </div>
-
     <div class="page-next reveal">
-      <a href="index.html" class="prev">
-        <span class="k">← All work</span>
+      <a href="case-designsystem.html" class="prev">
+        <span class="k">← Previous case</span>
+        <span class="v">AjnaLens Design System</span>
+      </a>
+      <a href="index.html" class="next">
+        <span class="k">All work →</span>
         <span class="v">Back to portfolio</span>
       </a>
-      <!-- <a href="Portfolio.html#work" class="next">
-        <span class="k">Next case study</span>
-        <span class="v">Explore more →</span>
-      </a> -->
     </div>
 
   </div>
@@ -696,6 +911,21 @@
   requestAnimationFrame(() => {
     document.querySelectorAll('.reveal').forEach((el, i) => { if (i < 2) el.classList.add('visible'); });
   });
+
+  // Nav: scroll-aware shrink
+  const nav = document.getElementById('nav');
+  if (nav) {
+    let lastScrolled = false;
+    const onScroll = () => {
+      const shouldShrink = window.scrollY > 24;
+      if (shouldShrink !== lastScrolled) {
+        nav.classList.toggle('scrolled', shouldShrink);
+        lastScrolled = shouldShrink;
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
 
   // Back to top
   const toTop = document.getElementById('toTop');
