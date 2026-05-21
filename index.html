@@ -791,8 +791,8 @@
     overflow: hidden;
     background:
       linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 60%, rgba(255,255,255,0.04) 100%);
-    backdrop-filter: blur(14px) saturate(130%);
-    -webkit-backdrop-filter: blur(14px) saturate(130%);
+    /* backdrop-filter: blur(50px) saturate(130%); */
+    -webkit-backdrop-filter: blur(50px) saturate(130%);
     border: 1px solid rgba(255,255,255,0.08);
     box-shadow:
       0 30px 60px -28px rgba(0,0,0,0.6),
@@ -875,9 +875,9 @@
     padding: clamp(28px, 3vw, 38px) clamp(20px, 2.4vw, 28px) clamp(18px, 2.2vw, 24px);
     background:
       linear-gradient(180deg, rgba(18,20,24,0.70) 0%, rgba(18,20,24,0.70) 100%);
-    backdrop-filter: blur(70px) saturate(170%) brightness(0.92);
-    -webkit-backdrop-filter: blur(70px) saturate(170%) brightness(0.92);
-    border-radius: 0 18px 22px 22px;
+    backdrop-filter: blur(100px) saturate(150%) brightness(0.92);
+    -webkit-backdrop-filter: blur(100px) saturate(150%) brightness(0.92);
+    border-radius: 18px 18px 22px 22px;
     border: none;
     display: flex;
     flex-direction: column;
@@ -890,19 +890,19 @@
   .layout-cards .case-body::before {
     content: '';
     position: absolute;
-    bottom: calc(100% - 1px);
+    bottom: calc(100% - 2px);
     left: 0;
     width: clamp(140px, 48%, 280px);
     height: 24px;
     background:
-      linear-gradient(180deg, rgba(18,20,24,0.70) 0%, rgba(18,20,24,0.70) 100%);
-    backdrop-filter: blur(70px) saturate(170%) brightness(0.92);
-    -webkit-backdrop-filter: blur(70px) saturate(170%) brightness(0.92);
+      linear-gradient(180deg, rgba(18,20,24,0.70) 50%, rgba(18,20,24,0.70) 100%);
+    backdrop-filter: blur(100px) saturate(150%) brightness(0.85);
+    -webkit-backdrop-filter: blur(100px) saturate(150%) brightness(0.85);
     border: none;
     border-radius: 16px 16px 0 0;
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.10);
   }
-  /* Concave fill removed — tab + body share material and now appear as one merged shape */
+  Concave fill removed — tab + body share material and now appear as one merged shape
   .layout-cards .case-body::after { display: none; }
   @media (max-width: 600px) {
     .layout-cards .case-body {
@@ -3222,9 +3222,9 @@
                 </div>
               </div>
 
-              <a href="case-babbel.html" class="case-link">Read case study <span>→</span></a>
+               <a href="case-babbel.html" class="case-link">Read case study <span>→</span></a>
             </div>
-          </div>
+          </div></a>
         </article>
 
       </div>
