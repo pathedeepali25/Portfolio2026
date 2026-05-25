@@ -1363,13 +1363,45 @@
   .skill-chip:hover { color: var(--fg); border-color: var(--fg-dim); background: var(--bg-3); }
 
   /* ---------- Testimonials ---------- */
+  .testimonials-wrapper {
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.testimonials-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.testimonials-grid {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  padding-bottom: 10px;
+
+  animation: autoScroll 60s linear infinite;
+}
+
+/* automatic horizontal scroll */
+@keyframes autoScroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
   .testimonials-grid {
-    display: grid;
+    display: flex;
+    flex-direction: row;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
   }
   @media (max-width: 900px) { .testimonials-grid { grid-template-columns: 1fr; } }
   .testimonial-card {
+
     position: relative;
     background: var(--bg-2);
     border: 1px solid var(--line);
@@ -1378,6 +1410,8 @@
     display: flex;
     flex-direction: column;
     gap: 18px;
+    flex: 0 0 640px; /* fixed width for each card */
+    min-width: 640px;
     transition: border-color .25s, transform .35s cubic-bezier(.2,.7,.2,1);
   }
   .testimonial-card:hover { border-color: var(--fg-dim); transform: translateY(-3px); }
@@ -3381,9 +3415,80 @@
       <div class="testimonials-grid">
         <article class="testimonial-card reveal">
           <span class="mark" aria-hidden="true">“</span>
+          <p class="quote">I have had the privilege of leading Deepali as part of my design team, and I can say with confidence that she is one of the most promising designers I have worked with in my career.
+
+What sets Deepali apart is something rare she is entirely self-taught, yet working alongside her, you would never once feel that. Her design thinking, her eye for detail, and her understanding of the end-to-end product lifecycle are on par with the best in the field. The reason is simple: she treats learning as a non-negotiable part of her growth. She is always curious, always improving, and always ahead of the curve when it comes to tools, trends, and craft.
+
+One of her most remarkable contributions was building a design system almost single-handedly, within a very short timeframe a task that typically demands months of structured effort. She approached it with a clarity of thinking that came from genuinely understanding the product, the stakeholder requirements, and most importantly, the user. That combination of product awareness and user empathy is what makes Deepali a truly well-rounded UI/UX designer.
+
+Her work on the B by Lenskart smart glasses project further demonstrated her ability to design for complex, hardware-constrained experiences translating technical limitations into interfaces that felt intuitive and clean. She consistently collaborated well with engineering, welcomed feedback, and ensured handoffs were seamless.
+
+Beyond her craft, Deepali is the kind of teammate who elevates everyone around her approachable, dependable, and always willing to contribute beyond her own scope.
+
+I wholeheartedly recommend Deepali to any team that values thoughtful design, strong ownership, and a designer who will only get better with time. Wherever she goes next, they are fortunate to have her.
+</p>
+          <div class="person">
+            <span class="avatar" data-tone="a" aria-hidden="true">AK</span>
+            <div class="who">
+              <div class="name">Animish Kolge</div>
+              <div class="role">Design Lead · AjnaLens</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="testimonial-card reveal">
+          <span class="mark" aria-hidden="true">“</span>
+          <p class="quote">I've had the opportunity to work closely with Deepali, and she is truly one of the most dependable and talented designers I've worked with. She brings a thoughtful and structured approach to problem-solving, always taking the time to reason through challenges before translating ideas into design.
+
+Deepali has a strong understanding of the end-to-end product design lifecycle, backed by solid technical knowledge and a sharp design sense. She is detail-oriented, highly organized, and consistently delivers work with clarity and precision.
+
+One of her standout strengths is communication - she has a rare ability to simplify complex problems and articulate solutions in a way that is easy for everyone to understand. Along with being a natural leader, she is also an amazing collaborator who elevates the people around her.
+
+I would highly recommend Deepali to any team looking for a designer who can solve complex UX challenges and transform them into intuitive, impactful user experiences.</p>
+          <div class="person">
+            <span class="avatar" data-tone="b" aria-hidden="true">RN</span>
+            <div class="who">
+              <div class="name">Rohit Nikam</div>
+              <div class="role">Senior Product Designer · AjnaLens</div>
+            </div>
+          </div>
+        </article>
+
+         <article class="testimonial-card reveal">
+          <span class="mark" aria-hidden="true">“</span>
+          <p class="quote">I had the opportunity to work with Deepali in the same team, and she consistently brought a strong mix of creativity, collaboration, and growth mindset to the table.
+
+She has a strong understanding of design and always stays updated with the latest industry trends, tools, and solutions. What I appreciate most about her is her willingness to learn and continuously grow, both professionally and personally. She's proactive, curious, and always looking for ways to improve her craft.
+
+Apart from being a talented designer, she's also a great team player. She's approachable, supportive, and always ready to help others whenever needed. Working alongside her has been a great experience, and I'm confident she'll continue to do amazing work wherever she goes.</p>
+          <div class="person">
+            <span class="avatar" data-tone="c" aria-hidden="true">YS</span>
+            <div class="who">
+              <div class="name">Yash Salve</div>
+              <div class="role">UX Designer · AjnaLens</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="testimonial-card reveal">
+          <span class="mark" aria-hidden="true">“</span>
+          <p class="quote">Had a great experience working with Deepali. She's an outstanding designer with a strong under- standing of both design and functionality. Coming from a computer science background, she under- stands how products actually work, which really reflects in her design decisions.
+
+She was one of the most hardworking and dedicated people on the team, contributed across multi- ple products, and was always helpful as a co-worker. Would definitely recommend her.</p>
+          <div class="person">
+            <span class="avatar" data-tone="a" aria-hidden="true">SC</span>
+            <div class="who">
+              <div class="name">Suraj Chavan</div>
+              <div class="role">Product Designer · AjnaLens</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="testimonial-card reveal">
+          <span class="mark" aria-hidden="true">“</span>
           <p class="quote">I have the pleasure of working closely with Deepali Pathe on the 'B by Lenskart' smart glasses project. Designing for wearable AR/smart tech requires a deep understanding of unique user experiences, and Deepali Pathe excels at this. She bridges the gap between complex hardware functionality and clean, intuitive UI beautifully. As an Android Developer, I highly value her collaborative approach—she always welcomes engineering feedback regarding platform constraints and ensures seamless design handoffs. She is a phenomenal Senior Product Designer who truly understands how to design for the future of tech.</p>
           <div class="person">
-            <span class="avatar" data-tone="a" aria-hidden="true">AR</span>
+            <span class="avatar" data-tone="b" aria-hidden="true">AR</span>
             <div class="who">
               <div class="name">Alpesh Raval</div>
               <div class="role">Tech Lead, Android · AjnaLens</div>
@@ -3395,7 +3500,7 @@
           <span class="mark" aria-hidden="true">“</span>
           <p class="quote">I had the pleasure of working with an exceptional Product Designer who consistently delivered thoughtful, user-centric solutions. She has an impressive ability to translate complex requirements into intuitive and visually appealing designs.<br/><br/>She possesses a strong understanding of user experience, design systems, and modern design tools, and always brings creativity along with a problem-solving mindset. Beyond her technical skills, she is highly collaborative, open to feedback, and committed to delivering high-quality work on time.</p>
           <div class="person">
-            <span class="avatar" data-tone="b" aria-hidden="true">JP</span>
+            <span class="avatar" data-tone="c" aria-hidden="true">JP</span>
             <div class="who">
               <div class="name">Jay Patel</div>
               <div class="role">SDE · Android &amp; React Native</div>
@@ -3407,7 +3512,7 @@
           <span class="mark" aria-hidden="true">“</span>
           <p class="quote">Deepali is the kind of UI/UX designer every team hopes to have — creative, thoughtful, and always full of fresh ideas. She has an incredible way of looking at problems from the user’s perspective and turning complex ideas into experiences that just make sense.<br/><br/>What makes her even more fun to work with is that she doesn’t just “design pretty screens” — she actually understands development too. So instead of developers crying over impossible designs at 2 AM, she creates experiences that are both beautiful and practical to build.</p>
           <div class="person">
-            <span class="avatar" data-tone="c" aria-hidden="true">SS</span>
+            <span class="avatar" data-tone="a" aria-hidden="true">SS</span>
             <div class="who">
               <div class="name">Shubhendam Shrotriya</div>
               <div class="role">AI Developer · AjnaLens</div>
@@ -3485,7 +3590,7 @@
 
       <div class="footer">
         <span>© 2026 · Deepali Pathe</span>
-        <span>v2.0 · Last updated Apr 2026</span>
+        <!-- <span>v2.0 · Last updated Apr 2026</span> -->
       </div>
     </div>
   </section>
