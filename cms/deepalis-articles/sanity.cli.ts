@@ -12,5 +12,6 @@ export default defineCliConfig({
      */
     autoUpdates: true,
     appId: 'evtch2q7xdls0ypkwk65btef',
+    hostname: 'deepali-articles',
   }
 })
