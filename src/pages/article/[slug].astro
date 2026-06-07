@@ -106,13 +106,18 @@ export async function getStaticPaths() {
       `https://${PROJ}.api.sanity.io/v${API_VER}/data/query/${DATASET}?query=${encodeURIComponent(GROQ)}`,
       { headers: { Accept: 'application/json' } }
     );
-    if (!res.ok) return [];
+    if (!res.ok) {
+      console.error('[getStaticPaths] Sanity returned', res.status, res.statusText);
+      return [];
+    }
     const { result } = await res.json();
+    console.log('[getStaticPaths] articles found:', (result ?? []).length);
     return (result ?? []).map((article: ArticleData) => ({
       params: { slug: article.slug },
       props: { article },
     }));
-  } catch {
+  } catch (e) {
+    console.error('[getStaticPaths] fetch failed:', e);
     return [];
   }
 }
