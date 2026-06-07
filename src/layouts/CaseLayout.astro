@@ -1,0 +1,98 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import '../styles/case-shared.css';
+
+interface Props {
+  title: string;
+  caseNum: string;
+  caseName: string;
+  prevCase?: { href: string; name: string };
+}
+
+const { title, caseNum, caseName, prevCase } = Astro.props;
+---
+<BaseLayout title={title}>
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-back">
+        <span class="arr">←</span><span>Back to portfolio</span>
+      </a>
+      {prevCase && (
+        <a href={prevCase.href} class="nav-prev-case">
+          <span class="k">← Previous case</span>
+          <span class="v">{prevCase.name} <span class="arr">←</span></span>
+        </a>
+      )}
+      <div class="nav-meta"><span class="accent">{caseNum}</span> · {caseName}</div>
+    </div>
+  </nav>
+
+  <slot />
+
+  <a href="#" class="to-top" id="toTop" aria-label="Back to top">
+    <span class="arr">↑</span><span class="label">Top</span>
+  </a>
+
+  <script>
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.reveal').forEach((el, i) => { if (i < 2) el.classList.add('visible'); });
+    });
+
+    // Nav scroll shrink
+    const nav = document.getElementById('nav');
+    if (nav) {
+      let last = false;
+      const onScroll = () => {
+        const s = window.scrollY > 24;
+        if (s !== last) { nav.classList.toggle('scrolled', s); last = s; }
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+
+    // Back to top
+    const toTop = document.getElementById('toTop');
+    if (toTop) {
+      const update = () => {
+        toTop.classList.toggle('visible', window.scrollY > window.innerHeight * 0.7);
+      };
+      window.addEventListener('scroll', update, { passive: true });
+      toTop.addEventListener('click', e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+      update();
+    }
+
+    // Theme toggle
+    const bloom = document.getElementById('bloomWash');
+    let switching = false;
+    function setTheme(next: string, ox?: number, oy?: number) {
+      if (switching || !bloom) return;
+      switching = true;
+      bloom.style.setProperty('--bloom-x', (ox ?? window.innerWidth - 80) + 'px');
+      bloom.style.setProperty('--bloom-y', (oy ?? 60) + 'px');
+      bloom.classList.add('washing');
+      setTimeout(() => {
+        document.documentElement.setAttribute('data-theme', next);
+        try { localStorage.setItem('portfolio.theme', next); } catch {}
+      }, 120);
+      setTimeout(() => bloom.classList.remove('washing'), 360);
+      setTimeout(() => { switching = false; }, 520);
+    }
+    const toggle = document.getElementById('themeToggle');
+    if (toggle) {
+      toggle.addEventListener('click', e => {
+        const r = (e.currentTarget as HTMLElement).getBoundingClientRect();
+        setTheme(
+          document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light',
+          r.left + r.width / 2, r.top + r.height / 2
+        );
+      });
+    }
+  </script>
+</BaseLayout>

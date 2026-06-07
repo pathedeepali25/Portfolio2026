@@ -1,0 +1,249 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../styles/article.css';
+
+/* ── Portable text → HTML (server-side) ────────────── */
+function escHtml(s: unknown): string {
+  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+interface Span     { _type: string; text?: string; marks?: string[] }
+interface MarkDef  { _key: string; _type: string; href?: string }
+interface Block    {
+  _type: string; style?: string; listItem?: string;
+  children?: Span[]; markDefs?: MarkDef[];
+  asset?: { url?: string }; alt?: string; caption?: string;
+}
+
+function spansToHtml(spans: Span[], defs: MarkDef[]): string {
+  return (spans ?? []).map(s => {
+    if (s._type !== 'span') return '';
+    let t = escHtml(s.text ?? '');
+    for (const mark of (s.marks ?? [])) {
+      if (mark === 'strong') { t = `<strong>${t}</strong>`; continue; }
+      if (mark === 'em')     { t = `<em>${t}</em>`;         continue; }
+      if (mark === 'code')   { t = `<code>${t}</code>`;     continue; }
+      const def = defs.find(d => d._key === mark);
+      if (def?._type === 'link') {
+        const rel = (def.href ?? '').startsWith('http') ? ' target="_blank" rel="noopener"' : '';
+        t = `<a href="${escHtml(def.href ?? '')}"${rel}>${t}</a>`;
+      }
+    }
+    return t;
+  }).join('');
+}
+
+function ptToHtml(blocks: Block[]): string {
+  if (!blocks?.length) return '';
+  const out: string[] = [];
+  for (const b of blocks) {
+    if (b._type === 'image') {
+      const url = b.asset?.url ?? '';
+      const cap = b.caption ? `<figcaption>${escHtml(b.caption)}</figcaption>` : '';
+      if (url) out.push(`<figure><img src="${escHtml(url)}" alt="${escHtml(b.alt ?? '')}" loading="lazy">${cap}</figure>`);
+      continue;
+    }
+    if (b._type !== 'block') continue;
+    const inner = spansToHtml(b.children ?? [], b.markDefs ?? []);
+    if (b.style === 'blockquote')              { out.push(`<blockquote>${inner}</blockquote>`); continue; }
+    if (/^h[1-6]$/.test(b.style ?? ''))        { out.push(`<${b.style}>${inner}</${b.style}>`); continue; }
+    if (b.listItem)                             { out.push(`<li data-list="${b.listItem}">${inner}</li>`); continue; }
+    if (inner)                                  { out.push(`<p>${inner}</p>`); }
+  }
+  let html = out.join('\n');
+  // Wrap consecutive list items
+  html = html.replace(/(<li data-list="bullet">[\s\S]*?<\/li>\n?)+/g,
+    m => '<ul>' + m.replace(/ data-list="bullet"/g, '') + '</ul>');
+  html = html.replace(/(<li data-list="number">[\s\S]*?<\/li>\n?)+/g,
+    m => '<ol>' + m.replace(/ data-list="number"/g, '') + '</ol>');
+  return html;
+}
+
+function readMins(blocks: Block[]): string {
+  if (!blocks?.length) return '';
+  const words = blocks
+    .filter(b => b._type === 'block')
+    .flatMap(b => b.children ?? [])
+    .map(s => s.text ?? '').join(' ')
+    .trim().split(/\s+/).length;
+  return Math.max(1, Math.round(words / 220)) + ' min read';
+}
+
+function fmtDate(d: string): string {
+  if (!d) return '';
+  const dt = new Date(d);
+  return isNaN(dt.getTime()) ? '' : dt.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+}
+
+function cdnUrl(url: string): string {
+  if (!url) return '';
+  const sep = url.includes('?') ? '&' : '?';
+  return url.includes('cdn.sanity.io') ? `${url}${sep}w=1400&h=740&fit=crop&auto=format&q=80` : url;
+}
+
+/* ── getStaticPaths — fetches ALL article data once ─── */
+type ArticleData = {
+  slug: string; title: string; excerpt?: string; date?: string;
+  cover?: string; category?: string; external?: string; content?: Block[];
+};
+
+export async function getStaticPaths() {
+  const PROJ    = '5p1ezhbv';
+  const DATASET = 'production';
+  const API_VER = '2023-05-03';
+  const GROQ = `*[_type=="article" && defined(slug.current)]{
+    "slug": slug.current,
+    title,
+    "excerpt": coalesce(excerpt, description, summary, ""),
+    "date": coalesce(publishedAt, _createdAt),
+    "cover": coalesce(heroImage, mainImage).asset->url,
+    "category": coalesce(category, categories[0]->title, ""),
+    "external": coalesce(externalUrl, link, ""),
+    content
+  }`;
+  try {
+    const res = await fetch(
+      `https://${PROJ}.api.sanity.io/v${API_VER}/data/query/${DATASET}?query=${encodeURIComponent(GROQ)}`,
+      { headers: { Accept: 'application/json' } }
+    );
+    if (!res.ok) return [];
+    const { result } = await res.json();
+    return (result ?? []).map((article: ArticleData) => ({
+      params: { slug: article.slug },
+      props: { article },
+    }));
+  } catch {
+    return [];
+  }
+}
+
+/* ── Per-page: data comes from props — zero extra fetch ─ */
+const { article } = Astro.props as { article: ArticleData };
+if (!article?.title) return Astro.redirect('/');
+
+/* ── Derived values ─────────────────────────────────── */
+const bodyHtml  = ptToHtml(article.content ?? []);
+const dateStr   = fmtDate(article.date ?? '');
+const minsStr   = readMins(article.content ?? []);
+const coverUrl  = cdnUrl(article.cover ?? '');
+const cat       = article.category ?? '';
+const pageTitle = `${article.title} · Deepali Pathe`;
+const desc      = article.excerpt ?? article.title;
+---
+
+<BaseLayout title={pageTitle} description={desc}>
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <nav class="art-nav" id="nav">
+    <div class="art-nav-inner">
+      <a href="/" class="art-logo">
+        deepali<span style="color:var(--fg-muted);font-style:italic;">.design</span>
+      </a>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" type="button">
+          <span class="tt-knob" aria-hidden="true"></span>
+        </button>
+        <a href="/#writing" class="art-nav-back">
+          <span class="arr">←</span><span>All writing</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="article-wrap">
+
+      <!-- Eyebrow breadcrumb -->
+      <div class="article-eyebrow">
+        <a href="/">deepali.design</a>
+        <span style="color:var(--fg-dim)">·</span>
+        <a href="/#writing">Writing</a>
+        {cat && (
+          <>
+            <span style="color:var(--fg-dim)">·</span>
+            <span class="cat">{cat}</span>
+          </>
+        )}
+      </div>
+
+      <!-- Title -->
+      <h1 class="article-title">{article.title}</h1>
+
+      <!-- Meta bar -->
+      {(dateStr || minsStr || cat) && (
+        <div class="article-meta">
+          {cat && <span class="cat">{cat}</span>}
+          {cat && (dateStr || minsStr) && <span class="dot" aria-hidden="true"></span>}
+          {dateStr && <span>{dateStr}</span>}
+          {dateStr && minsStr && <span class="dot" aria-hidden="true"></span>}
+          {minsStr && <span>{minsStr}</span>}
+        </div>
+      )}
+
+      <!-- Lede / excerpt -->
+      {article.excerpt && <p class="article-lede">{article.excerpt}</p>}
+
+      <!-- Cover image -->
+      {coverUrl && (
+        <img
+          src={coverUrl}
+          alt={article.title}
+          class="article-cover-img"
+          loading="eager"
+        />
+      )}
+
+      <!-- Body (portable text rendered server-side) -->
+      <div class="article-body" set:html={bodyHtml || '<p>No content yet.</p>'} />
+
+      <!-- Footer -->
+      <div class="article-footer">
+        <a href="/#writing" class="back-link">← Back to writing</a>
+        {article.external && (
+          <a href={article.external} target="_blank" rel="noopener" class="medium-link">
+            Read on Medium ↗
+          </a>
+        )}
+      </div>
+
+    </div>
+  </main>
+</BaseLayout>
+
+<script>
+  // Nav scroll border
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav')?.classList.toggle('scrolled', window.scrollY > 10);
+  }, { passive: true });
+
+  // Scroll progress bar
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = Math.min(1, h.scrollTop / (h.scrollHeight - h.clientHeight) || 0);
+    document.getElementById('scrollProgress')?.style.setProperty('--scroll', String(pct));
+  }, { passive: true });
+
+  // Theme toggle
+  const bloom = document.getElementById('bloomWash');
+  let switching = false;
+  function setTheme(next: string, ox?: number, oy?: number) {
+    if (switching || !bloom) return;
+    switching = true;
+    bloom.style.setProperty('--bloom-x', (ox ?? window.innerWidth - 80) + 'px');
+    bloom.style.setProperty('--bloom-y', (oy ?? 60) + 'px');
+    bloom.classList.add('washing');
+    setTimeout(() => {
+      document.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem('portfolio.theme', next); } catch {}
+    }, 120);
+    setTimeout(() => bloom.classList.remove('washing'), 360);
+    setTimeout(() => { switching = false; }, 520);
+  }
+  document.getElementById('themeToggle')?.addEventListener('click', e => {
+    const r = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    setTheme(
+      document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light',
+      r.left + r.width / 2, r.top + r.height / 2
+    );
+  });
+</script>
