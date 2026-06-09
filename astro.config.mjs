@@ -9,7 +9,7 @@ export default defineConfig({
   integrations: [
     partytown({
       config: {
-        forward: ['dataLayer.push', 'gtag', 'clarity'],
+        forward: ['dataLayer.push', 'gtag'],
       },
     }),
   ],
