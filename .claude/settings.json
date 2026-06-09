@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(node scripts/migrate-to-cloudinary.mjs)"
+      "Bash(node scripts/migrate-to-cloudinary.mjs)",
+      "WebFetch(domain:pagespeed.web.dev)",
+      "Bash(npx lighthouse *)",
+      "Bash(node -e ' *)",
+      "Bash(git commit -m ' *)",
+      "Bash(node scripts/add-width-transforms.mjs)"
     ]
   }
 }
