@@ -12,6 +12,7 @@
     "astro": "^4.16.0"
   },
   "devDependencies": {
+    "@astrojs/partytown": "^2.1.7",
     "@sanity/blueprints": "0.20.1",
     "@sanity/functions": "1.3.1"
   }
