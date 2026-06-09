@@ -1148,6 +1148,7 @@ import '../styles/index.css';
   const drawer = document.getElementById('navDrawer');
   const scrim = document.getElementById('navScrim');
   if (burger && drawer && scrim) {
+    const drawerFocusable = () => drawer.querySelectorAll('a, button');
     const openDrawer = () => {
       drawer.classList.add('open');
       scrim.classList.add('open');
@@ -1155,6 +1156,7 @@ import '../styles/index.css';
       burger.setAttribute('aria-expanded', 'true');
       burger.setAttribute('aria-label', 'Close menu');
       document.body.classList.add('no-scroll');
+      drawerFocusable().forEach(el => el.removeAttribute('tabindex'));
     };
     const closeDrawer = () => {
       drawer.classList.remove('open');
@@ -1163,7 +1165,10 @@ import '../styles/index.css';
       burger.setAttribute('aria-expanded', 'false');
       burger.setAttribute('aria-label', 'Open menu');
       document.body.classList.remove('no-scroll');
+      drawerFocusable().forEach(el => el.setAttribute('tabindex', '-1'));
     };
+    // Initialise: drawer starts closed so links must not be reachable by tab
+    drawerFocusable().forEach(el => el.setAttribute('tabindex', '-1'));
     burger.addEventListener('click', () => {
       if (drawer.classList.contains('open')) closeDrawer();
       else openDrawer();
@@ -1845,7 +1850,7 @@ import '../styles/index.css';
 </script>
 
 <!-- =================== RECOMMENDATION OVERLAY =================== -->
-<div class="rec-overlay" id="recOverlay" role="dialog" aria-modal="true" aria-labelledby="recName" hidden>
+<div class="rec-overlay" id="recOverlay" role="dialog" aria-modal="true" aria-label="Recommendation" hidden>
   <div class="rec-panel" role="document">
     <button class="rec-close" type="button" id="recClose" aria-label="Close">✕</button>
     <span class="rec-mark" aria-hidden="true">“</span>
@@ -1873,6 +1878,7 @@ import '../styles/index.css';
       const clone = c.cloneNode(true);
       clone.setAttribute('aria-hidden', 'true');
       clone.classList.add('is-clone');
+      clone.querySelectorAll('a, button').forEach(el => el.setAttribute('tabindex', '-1'));
       track.appendChild(clone);
     });
   }
@@ -1927,6 +1933,7 @@ import '../styles/index.css';
     }
     recName.textContent = name ? name.textContent : '';
     recRole.textContent = role ? role.textContent : '';
+    overlay.setAttribute('aria-label', name ? 'Recommendation from ' + name.textContent : 'Recommendation');
 
     lastFocus = document.activeElement;
     overlay.hidden = false;

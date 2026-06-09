@@ -30,31 +30,40 @@ const {
     })();
   </script>
 
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
   <!-- Preconnect to Sanity API -->
   <link rel="preconnect" href="https://5p1ezhbv.api.sanity.io" />
   <link rel="dns-prefetch" href="https://cdn.sanity.io" />
 
-  <!-- Fonts -->
+  <!-- Fonts — non-blocking load -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..600;1,300..500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..600;1,300..500&family=Inter:wght@400;500;600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..600;1,300..500&family=Inter:wght@400;500;600&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..600;1,300..500&family=Inter:wght@400;500;600&display=swap" /></noscript>
 
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1335Z71PCJ"></script>
+  <!-- Analytics — queued immediately, scripts deferred to idle -->
   <script is:inline>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-1335Z71PCJ');
-  </script>
-
-  <!-- Microsoft Clarity -->
-  <script is:inline type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "x1omzde18c");
+    (function loadTrackers() {
+      function run() {
+        var s = document.createElement('script');
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-1335Z71PCJ';
+        s.async = true;
+        document.head.appendChild(s);
+        (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window,document,"clarity","script","x1omzde18c");
+      }
+      'requestIdleCallback' in window ? requestIdleCallback(run, {timeout:3000}) : setTimeout(run, 2000);
+    })();
   </script>
 
   <slot name="head" />
