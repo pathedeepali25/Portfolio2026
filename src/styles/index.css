@@ -5,7 +5,7 @@
     --bg-3: #22262C;
     --fg: #E4E1DA;
     --fg-muted: #9E9C94;
-    --fg-dim: #5A5A54;
+    --fg-dim: #838178;
     --line: #25282E;
     --accent: #9FB2C8;
     --accent-ink: #B6C5D8;
@@ -27,7 +27,7 @@
     --bg-3: #E5E0EA;        /* pressed */
     --fg: #1F1B2A;          /* deep ink, strong contrast (~13.5:1 on bg) */
     --fg-muted: #4A4458;
-    --fg-dim: #8A8298;
+    --fg-dim: #5E5B6B;
     --line: #E2DCEA;
     --accent: #B07A8E;      /* dusty rose */
     --accent-ink: #8E5C72;  /* deeper rose for ink */
@@ -1809,6 +1809,12 @@
   .reveal.delay-1 { transition-delay: .12s; }
   .reveal.delay-2 { transition-delay: .24s; }
   .reveal.delay-3 { transition-delay: .36s; }
+
+  /* Hero is above-fold — fire reveals fast so they don't delay LCP */
+  .hero .reveal          { transition-duration: .2s; }
+  .hero .reveal.delay-1  { transition-delay: 0s; }
+  .hero .reveal.delay-2  { transition-delay: .05s; }
+  .hero .reveal.delay-3  { transition-delay: .1s; }
 
   /* ---------- Password modal ---------- */
   .pw-modal {
