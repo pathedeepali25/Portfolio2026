@@ -51,7 +51,7 @@
       background-color 1100ms cubic-bezier(0.22, 1, 0.36, 1),
       color 900ms cubic-bezier(0.22, 1, 0.36, 1) 100ms;
   }
-  .nav, .case-hero, .approach-item, .pw-card, .surface, .mock, .node, .phone,
+  .nav, .case-hero, .approach-item, .surface, .mock, .node, .phone,
   .case-kv, .about-meta .row, .skill-col h3, .contact-cta-row,
   .contact-socials a, .case-meta-rail, .footer, .tweaks {
     transition:
@@ -1816,141 +1816,6 @@
   .hero .reveal.delay-2  { transition-delay: .05s; }
   .hero .reveal.delay-3  { transition-delay: .1s; }
 
-  /* ---------- Password modal ---------- */
-  .pw-modal {
-    position: fixed; inset: 0; z-index: 200;
-    display: none;
-    align-items: center; justify-content: center;
-    background: rgba(22, 24, 28, 0.78);
-    backdrop-filter: blur(20px) saturate(120%);
-    -webkit-backdrop-filter: blur(20px) saturate(120%);
-    opacity: 0;
-    transition: opacity .35s ease;
-  }
-  .pw-modal.active { display: flex; opacity: 1; }
-  .pw-card {
-    width: min(440px, calc(100vw - 48px));
-    padding: 48px 40px 36px;
-    background: var(--bg-2);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    text-align: left;
-    transform: translateY(8px);
-    transition: transform .45s cubic-bezier(.2,.7,.2,1);
-    position: relative;
-  }
-  .pw-modal.active .pw-card { transform: none; }
-  .pw-eyebrow {
-    font-family: var(--f-mono); font-size: 10px;
-    color: var(--fg-dim); letter-spacing: 0.12em; text-transform: uppercase;
-    margin-bottom: 16px;
-  }
-  .pw-title {
-    font-family: var(--f-display);
-    font-size: 28px; font-weight: 320;
-    letter-spacing: -0.02em; line-height: 1.15;
-    margin-bottom: 14px;
-  }
-  .pw-title em { font-style: italic; color: var(--fg-muted); font-weight: 300; }
-  .pw-sub {
-    font-size: 14px; line-height: 1.6;
-    color: var(--fg-muted);
-    margin-bottom: 28px;
-    text-wrap: pretty;
-  }
-  .pw-field {
-    margin-bottom: 16px;
-  }
-  .pw-field label {
-    display: block;
-    font-family: var(--f-mono); font-size: 10px;
-    color: var(--fg-dim); letter-spacing: 0.1em; text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-  .pw-input-wrap {
-    position: relative;
-    display: block;
-  }
-  .pw-input {
-    width: 100%;
-    padding: 12px 44px 12px 14px;
-    background: var(--bg);
-    border: 1px solid var(--line);
-    border-radius: 3px;
-    color: var(--fg);
-    font-family: var(--f-sans);
-    font-size: 14px;
-    outline: none;
-    transition: border-color .2s;
-  }
-  .pw-input:focus { border-color: var(--accent); }
-  .pw-eye {
-    position: absolute;
-    top: 50%;
-    right: 8px;
-    transform: translateY(-50%);
-    width: 32px;
-    height: 32px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: none;
-    border: none;
-    color: var(--fg-dim);
-    cursor: pointer;
-    border-radius: 3px;
-    transition: color .2s, background-color .2s;
-    padding: 0;
-  }
-  .pw-eye:hover { color: var(--fg); background: rgba(127,127,127,0.08); }
-  .pw-eye:focus-visible { outline: 1px solid var(--accent); outline-offset: 1px; }
-  .pw-eye svg { width: 18px; height: 18px; display: block; }
-  .pw-eye .pw-eye-off { display: none; }
-  .pw-eye.is-visible .pw-eye-on { display: none; }
-  .pw-eye.is-visible .pw-eye-off { display: block; }
-  .pw-error {
-    font-family: var(--f-mono); font-size: 11px;
-    color: var(--warn);
-    margin-top: 8px;
-    min-height: 16px;
-    letter-spacing: 0.02em;
-  }
-  .pw-actions {
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 16px;
-    margin-top: 8px;
-  }
-  .pw-enter {
-    font-family: var(--f-sans); font-size: 14px; font-weight: 500;
-    padding: 12px 22px;
-    background: var(--fg); color: var(--bg);
-    border: 1px solid var(--fg);
-    border-radius: 999px;
-    cursor: pointer;
-    transition: background .25s, color .25s;
-  }
-  .pw-enter:hover { background: var(--accent); border-color: var(--accent); color: var(--bg); }
-  .pw-request {
-    font-family: var(--f-mono); font-size: 12px;
-    color: var(--fg-muted);
-    border-bottom: 1px solid var(--fg-dim);
-    padding-bottom: 2px;
-    transition: color .2s, border-color .2s;
-    cursor: pointer;
-    background: none; border-top: none; border-left: none; border-right: none;
-  }
-  .pw-request:hover { color: var(--accent-ink); border-bottom-color: var(--accent-ink); }
-  .pw-close {
-    position: absolute; top: 14px; right: 16px;
-    background: none; border: none;
-    color: var(--fg-dim);
-    font-family: var(--f-mono); font-size: 18px;
-    cursor: pointer;
-    padding: 4px 8px;
-    transition: color .2s;
-  }
-  .pw-close:hover { color: var(--fg); }
-
   /* ---------- Theme toggle + Bloom overlay ---------- */
   .theme-toggle {
     position: relative;
@@ -2093,31 +1958,12 @@
     border-color: var(--accent-ink);
   }
 
-  html[data-theme="light"] .pw-modal {
-    background: rgba(238, 234, 242, 0.65);
-    backdrop-filter: blur(28px) saturate(130%);
-    -webkit-backdrop-filter: blur(28px) saturate(130%);
-  }
-  html[data-theme="light"] .pw-card {
-    background: var(--bg);
-    border: 1px solid var(--line);
-    box-shadow: var(--shadow-soft);
-  }
-  html[data-theme="light"] .pw-input {
-    background: var(--bg-2);
-    color: var(--fg);
-  }
-  html[data-theme="light"] .pw-enter {
-    background: var(--fg); color: var(--bg);
-    border-color: var(--fg);
-  }
-
   /* Ensure key surfaces sit above ambient */
   body > * { position: relative; z-index: 1; }
-  .bloom-wash, .pw-modal { z-index: 300; }
+  .bloom-wash { z-index: 300; }
 
   @media (prefers-reduced-motion: reduce) {
-    html, body, .nav, .case-hero, .approach-item, .pw-card, .surface, .mock,
+    html, body, .nav, .case-hero, .approach-item, .surface, .mock,
     .case-kv, .about-meta .row, .skill-col h3, .contact-cta-row,
     .contact-socials a, .case-meta-rail, .footer, .tweaks,
     .bloom-wash, .ambient, .theme-toggle, .theme-toggle .tt-knob {
@@ -2474,12 +2320,12 @@
   body.no-scroll { overflow: hidden; }
 
   /* Tap-target hardening */
-  .nav-cta, .nav-links a, .case-link, .contact-socials a, .pw-enter, .btn,
-  .tweak-btn, .pw-close, .pw-request, .nav-burger {
+  .nav-cta, .nav-links a, .case-link, .contact-socials a, .btn,
+  .tweak-btn, .nav-burger {
     min-height: 36px;
   }
   @media (pointer: coarse) {
-    .nav-cta, .case-link, .contact-socials a, .btn, .pw-enter, .pw-request,
+    .nav-cta, .case-link, .contact-socials a, .btn,
     .nav-burger {
       min-height: 44px;
     }
@@ -2488,14 +2334,6 @@
 
   /* Theme toggle keeps its 11:7 aspect ratio on every viewport */
   .theme-toggle { aspect-ratio: 44 / 28; flex: 0 0 auto; }
-
-  /* PW modal — fluid */
-  .pw-card {
-    width: min(440px, calc(100vw - 32px));
-    padding: clamp(28px, 5vw, 48px) clamp(20px, 4vw, 40px) clamp(24px, 4vw, 36px);
-  }
-  .pw-title { font-size: clamp(22px, 3vw, 28px); }
-  .pw-actions { flex-wrap: wrap; }
 
   /* Tweaks panel: avoid covering content on mobile */
   @media (max-width: 600px) {
