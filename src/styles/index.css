@@ -441,6 +441,7 @@
   .work-list { display: flex; flex-direction: column; gap: 120px; }
 
   .case {
+    position: relative;
     opacity: 0;
     transform: translateY(32px);
     transition: opacity 1.4s ease, transform 1.4s cubic-bezier(.2,.7,.2,1);
@@ -647,6 +648,7 @@
     transition: border-color .25s, color .25s, gap .25s;
   }
   .case-link:hover { color: var(--accent-ink); border-color: var(--accent-ink); gap: 16px; }
+  .case-link::after { content: ''; position: absolute; inset: 0; }
 
   /* ----- Variant B: Split (image left, content right) ----- */
   .layout-split .case-grid {
