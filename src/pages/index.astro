@@ -722,6 +722,17 @@ import '../styles/index.css';
 </script>
 
 <script is:inline>
+  document.querySelectorAll('#workList .case').forEach(card => {
+    const link = card.querySelector('.case-link');
+    if (!link) return;
+    card.addEventListener('click', e => {
+      if (e.target.closest('a, button')) return;
+      window.location.href = link.href;
+    });
+  });
+</script>
+
+<script is:inline>
 (() => {
   const workList = document.getElementById('workList');
 
